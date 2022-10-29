@@ -3,7 +3,7 @@ package entity;
 /**
  * @author Vladislav Konovalov
  */
-public class OrderProduct {
+public class OrderProduct extends AbstractEntity {
     private Long orderId;
     private Long productId;
     private double quantity;

@@ -11,9 +11,7 @@ import java.util.Map;
 /**
  * @author Vladislav Konovalov
  */
-public class Order {
-    @JsonIgnore
-    private Long id;
+public class Order extends AbstractEntity {
     @JsonIgnore
     private LocalDateTime deliveryDateTime;
     @JsonIgnore
@@ -24,10 +22,6 @@ public class Order {
     public Order(Long id, LocalDateTime deliveryDateTime) {
         this.id = id;
         this.deliveryDateTime = deliveryDateTime;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public LocalDateTime getDeliveryDateTime() {

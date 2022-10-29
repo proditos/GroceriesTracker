@@ -5,8 +5,7 @@ import java.util.Objects;
 /**
  * @author Vladislav Konovalov
  */
-public class Product {
-    private Long id;
+public class Product extends AbstractEntity {
     private String name;
     private double price;
     private boolean pricePerKg;
@@ -16,10 +15,6 @@ public class Product {
         this.name = name;
         this.price = price;
         this.pricePerKg = pricePerKg;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
