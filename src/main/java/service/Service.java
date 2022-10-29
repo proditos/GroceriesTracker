@@ -26,10 +26,10 @@ public class Service {
 
     public void saveUnique(Order order) {
         if (order == null) return;
-        LocalDateTime deliveryDateTime = order.getDeliveryDateTime();
-        if (orderDao.findBy(deliveryDateTime).orElse(null) != null) return;
+        LocalDateTime dateTime = order.getDateTime();
+        if (orderDao.findBy(dateTime).orElse(null) != null) return;
         orderDao.save(order);
-        Long orderId = orderDao.findBy(deliveryDateTime).get().getId();
+        Long orderId = orderDao.findBy(dateTime).get().getId();
 
         Map<Long, Double> uniqueProductIds = saveUniqueProducts(order.getProducts());
 

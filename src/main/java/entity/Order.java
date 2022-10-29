@@ -13,19 +13,19 @@ import java.util.Map;
  */
 public class Order extends AbstractEntity {
     @JsonIgnore
-    private LocalDateTime deliveryDateTime;
+    private LocalDateTime dateTime;
     @JsonIgnore
     private final Map<Product, Double> products = new HashMap<>();
 
     public Order() {}
 
-    public Order(Long id, LocalDateTime deliveryDateTime) {
+    public Order(Long id, LocalDateTime dateTime) {
         this.id = id;
-        this.deliveryDateTime = deliveryDateTime;
+        this.dateTime = dateTime;
     }
 
-    public LocalDateTime getDeliveryDateTime() {
-        return deliveryDateTime;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
     public Map<Product, Double> getProducts() {
@@ -36,7 +36,7 @@ public class Order extends AbstractEntity {
     private void unpackNested(Map<String, Object> document) {
         String dateTimeStr = (String) document.get("DateTime");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        deliveryDateTime = LocalDateTime.parse(dateTimeStr, formatter);
+        dateTime = LocalDateTime.parse(dateTimeStr, formatter);
 
         List<Map<String, Object>> items = (List<Map<String, Object>>) document.get("Items");
         items.forEach(productMap -> {
