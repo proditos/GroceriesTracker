@@ -13,13 +13,14 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class OrderDao {
+public class OrderDao implements Dao<Order> {
     private final DataSource dataSource;
 
     public OrderDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public void save(Order order) {
         if (order == null) return;
         String query = "INSERT into orders (delivery_datetime) VALUES(?)";

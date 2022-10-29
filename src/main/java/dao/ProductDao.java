@@ -11,13 +11,14 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class ProductDao {
+public class ProductDao implements Dao<Product> {
     private final DataSource dataSource;
 
     public ProductDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public void save(Product product) {
         if (product == null) return;
         String query = "INSERT INTO products (name, price, price_per_kg) VALUES(?, ?, ?)";

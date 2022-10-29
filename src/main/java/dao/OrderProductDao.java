@@ -9,13 +9,14 @@ import java.sql.SQLException;
 /**
  * @author Vladislav Konovalov
  */
-public class OrderProductDao {
+public class OrderProductDao implements Dao<OrderProduct> {
     private final DataSource dataSource;
 
     public OrderProductDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public void save(OrderProduct orderProduct) {
         String query = "INSERT INTO orders_products (order_id, product_id, quantity) VALUES(?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
