@@ -13,12 +13,12 @@ import java.util.Map;
 /**
  * @author Vladislav Konovalov
  */
-public class Service {
+public class OrderService {
     private final OrderDao orderDao;
     private final OrderProductDao orderProductDao;
     private final ProductDao productDao;
 
-    public Service(OrderDao orderDao, OrderProductDao orderProductDao, ProductDao productDao) {
+    public OrderService(OrderDao orderDao, OrderProductDao orderProductDao, ProductDao productDao) {
         this.orderDao = orderDao;
         this.orderProductDao = orderProductDao;
         this.productDao = productDao;

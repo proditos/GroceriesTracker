@@ -9,7 +9,7 @@ import entity.Order;
 import org.mariadb.jdbc.MariaDbDataSource;
 import parser.OrderParser;
 import parser.Parser;
-import service.Service;
+import service.OrderService;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
@@ -43,7 +43,7 @@ public class Main {
         OrderDao orderDao = new OrderDao(DATA_SOURCE);
         OrderProductDao orderProductDao = new OrderProductDao(DATA_SOURCE);
         ProductDao productDao = new ProductDao(DATA_SOURCE);
-        Service service = new Service(orderDao, orderProductDao, productDao);
-        service.saveUnique(order);
+        OrderService orderService = new OrderService(orderDao, orderProductDao, productDao);
+        orderService.saveUnique(order);
     }
 }
