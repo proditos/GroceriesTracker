@@ -1,7 +1,6 @@
 package dao;
 
 import entity.Product;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,42 +11,53 @@ import java.util.Optional;
  * @author Vladislav Konovalov
  */
 public class ProductDao implements Dao<Product> {
-    private final DataSource dataSource;
+    private final Connection connection;
 
-    public ProductDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public ProductDao(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
     public void save(Product product) {
         if (product == null) return;
         String query = "INSERT INTO products (name, price, price_per_kg) VALUES(?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(query);
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());
             statement.setInt(3, product.isPricePerKg() ? 1 : 0);
-            statement.executeQuery();
+            resultSet = statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
     }
 
     public Optional<Product> findBy(String name, double price, boolean pricePerKg) {
         Optional<Product> optional = Optional.empty();
+        if (name == null) return optional;
         String query = "SELECT product_id FROM products WHERE name = ? AND price = ? AND price_per_kg = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setDouble(2, price);
             statement.setInt(3, pricePerKg ? 1 : 0);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                long id = rs.getLong("product_id");
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                long id = resultSet.getLong("product_id");
                 optional = Optional.of(new Product(id, name, price, pricePerKg));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
         return optional;
     }

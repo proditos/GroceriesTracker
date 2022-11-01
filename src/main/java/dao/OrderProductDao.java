@@ -1,32 +1,38 @@
 package dao;
 
 import entity.OrderProduct;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  * @author Vladislav Konovalov
  */
 public class OrderProductDao implements Dao<OrderProduct> {
-    private final DataSource dataSource;
+    private final Connection connection;
 
-    public OrderProductDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public OrderProductDao(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
     public void save(OrderProduct orderProduct) {
+        if (orderProduct == null) return;
         String query = "INSERT INTO orders_products (order_id, product_id, quantity) VALUES(?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(query);
             statement.setLong(1, orderProduct.getOrderId());
             statement.setLong(2, orderProduct.getProductId());
             statement.setDouble(3, orderProduct.getQuantity());
-            statement.executeQuery();
+            resultSet = statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
     }
 }
