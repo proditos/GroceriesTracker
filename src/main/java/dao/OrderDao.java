@@ -34,7 +34,7 @@ public class OrderDao implements Dao<Order> {
         }
     }
 
-    public Optional<Order> findBy(LocalDateTime dateTime) {
+    public Optional<Order> findWithoutProductsBy(LocalDateTime dateTime) {
         Optional<Order> optional = Optional.empty();
         String query = "SELECT order_id FROM orders WHERE date_time = ?";
         try (Connection connection = dataSource.getConnection();
