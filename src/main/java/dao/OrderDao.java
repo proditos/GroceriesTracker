@@ -42,7 +42,7 @@ public class OrderDao implements Dao<Order> {
     public Optional<Order> findWithoutProductsBy(LocalDateTime dateTime) {
         Optional<Order> optional = Optional.empty();
         if (dateTime == null) return optional;
-        String query = "SELECT order_id FROM orders WHERE date_time = ?";
+        String query = "SELECT order_id FROM orders WHERE date_time = ? ORDER BY order_id DESC";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {

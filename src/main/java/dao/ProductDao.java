@@ -41,7 +41,7 @@ public class ProductDao implements Dao<Product> {
     public Optional<Product> findBy(String name, double price, boolean pricePerKg) {
         Optional<Product> optional = Optional.empty();
         if (name == null) return optional;
-        String query = "SELECT product_id FROM products WHERE name = ? AND price = ? AND price_per_kg = ?";
+        String query = "SELECT product_id FROM products WHERE name = ? AND price = ? AND price_per_kg = ? ORDER BY product_id DESC";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
