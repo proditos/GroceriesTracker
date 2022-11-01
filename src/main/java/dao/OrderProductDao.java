@@ -1,6 +1,7 @@
 package dao;
 
 import entity.OrderProduct;
+import exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class OrderProductDao implements Dao<OrderProduct> {
             statement.setDouble(3, orderProduct.getQuantity());
             resultSet = statement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("An error occurred while saving an order_product", e);
         } finally {
             try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }

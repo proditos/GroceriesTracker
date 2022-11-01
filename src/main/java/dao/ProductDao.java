@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Product;
+import exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ public class ProductDao implements Dao<Product> {
             statement.setInt(3, product.isPricePerKg() ? 1 : 0);
             resultSet = statement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("An error occurred while saving a product", e);
         } finally {
             try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
@@ -54,7 +55,9 @@ public class ProductDao implements Dao<Product> {
                 optional = Optional.of(new Product(id, name, price, pricePerKg));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = "An error occurred while getting a product by name='" + name + "', " +
+                    "price='" + price + "' and price_per_kg='" + pricePerKg + "'";
+            throw new DaoException(message, e);
         } finally {
             try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }

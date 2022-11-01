@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Order;
+import exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +32,7 @@ public class OrderDao implements Dao<Order> {
             statement.setString(1, order.getDateTime().format(formatter));
             resultSet = statement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("An error occurred while saving an order", e);
         } finally {
             try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
@@ -54,7 +55,7 @@ public class OrderDao implements Dao<Order> {
                 optional = Optional.of(new Order(id, dateTime));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("An error occurred while getting an order by datetime='" + dateTime + "'", e);
         } finally {
             try { if (resultSet != null) resultSet.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
