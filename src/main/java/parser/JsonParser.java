@@ -11,15 +11,15 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class OrderParser implements Parser<Order> {
+public class JsonParser implements Parser {
     private final ObjectMapper objectMapper;
 
-    public OrderParser(ObjectMapper objectMapper) {
+    public JsonParser(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     @Override
-    public Optional<Order> parseJson(Path path) {
+    public Optional<Order> parseOrder(Path path) {
         Optional<Order> optional = Optional.empty();
         try (InputStream is = Files.newInputStream(path)) {
             optional = Optional.of(objectMapper.readValue(is, Order.class));
