@@ -13,11 +13,9 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class OrderDao implements Dao<Order> {
-    private final Connection connection;
-
+public class OrderDao extends AbstractDao<Order> {
     public OrderDao(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     @Override

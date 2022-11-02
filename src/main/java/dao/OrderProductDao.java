@@ -9,11 +9,9 @@ import java.sql.SQLException;
 /**
  * @author Vladislav Konovalov
  */
-public class OrderProductDao implements Dao<OrderProduct> {
-    private final Connection connection;
-
+public class OrderProductDao extends AbstractDao<OrderProduct> {
     public OrderProductDao(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     @Override

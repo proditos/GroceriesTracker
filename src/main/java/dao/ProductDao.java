@@ -11,11 +11,9 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class ProductDao implements Dao<Product> {
-    private final Connection connection;
-
+public class ProductDao extends AbstractDao<Product> {
     public ProductDao(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     @Override
@@ -37,7 +35,8 @@ public class ProductDao implements Dao<Product> {
     public Optional<Product> findBy(String name, double price, boolean pricePerKg) {
         Optional<Product> optional = Optional.empty();
         if (name == null) return optional;
-        String query = "SELECT product_id FROM products WHERE name = ? AND price = ? AND price_per_kg = ? ORDER BY product_id DESC";
+        String query = "SELECT product_id FROM products " +
+                "WHERE name = ? AND price = ? AND price_per_kg = ? ORDER BY product_id DESC";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, name);
             statement.setDouble(2, price);
