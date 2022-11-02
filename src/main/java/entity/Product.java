@@ -8,13 +8,11 @@ import java.util.Objects;
 public class Product extends AbstractEntity implements Comparable<Product> {
     private final String name;
     private final double price;
-    private final boolean pricePerKg;
 
-    public Product(Long id, String name, double price, boolean pricePerKg) {
+    public Product(Long id, String name, double price) {
         super(id);
         this.name = name;
         this.price = price;
-        this.pricePerKg = pricePerKg;
     }
 
     public String getName() {
@@ -25,23 +23,18 @@ public class Product extends AbstractEntity implements Comparable<Product> {
         return price;
     }
 
-    public boolean isPricePerKg() {
-        return pricePerKg;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Double.compare(product.price, price) == 0 &&
-                pricePerKg == product.pricePerKg &&
                 Objects.equals(name, product.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price, pricePerKg);
+        return Objects.hash(name, price);
     }
 
     @Override
