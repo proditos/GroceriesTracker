@@ -5,13 +5,13 @@ import java.util.Objects;
 /**
  * @author Vladislav Konovalov
  */
-public class Product extends AbstractEntity {
-    private String name;
-    private double price;
-    private boolean pricePerKg;
+public class Product extends AbstractEntity implements Comparable<Product> {
+    private final String name;
+    private final double price;
+    private final boolean pricePerKg;
 
     public Product(Long id, String name, double price, boolean pricePerKg) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.price = price;
         this.pricePerKg = pricePerKg;
@@ -42,5 +42,10 @@ public class Product extends AbstractEntity {
     @Override
     public int hashCode() {
         return Objects.hash(name, price, pricePerKg);
+    }
+
+    @Override
+    public int compareTo(Product product) {
+        return this.getName().compareTo(product.getName());
     }
 }

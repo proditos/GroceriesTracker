@@ -4,11 +4,12 @@ package entity;
  * @author Vladislav Konovalov
  */
 public class OrderProduct extends AbstractEntity {
-    private Long orderId;
-    private Long productId;
-    private double quantity;
+    private final Long orderId;
+    private final Long productId;
+    private final double quantity;
 
-    public OrderProduct(Long orderId, Long productId, double quantity) {
+    public OrderProduct(Long id, Long orderId, Long productId, double quantity) {
+        super(id);
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;

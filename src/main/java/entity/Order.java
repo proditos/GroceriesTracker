@@ -17,10 +17,12 @@ public class Order extends AbstractEntity {
     @JsonIgnore
     private final Map<Product, Double> products = new HashMap<>();
 
-    public Order() {}
+    public Order() {
+        super(null);
+    }
 
     public Order(Long id, LocalDateTime dateTime) {
-        this.id = id;
+        super(id);
         this.dateTime = dateTime;
     }
 
@@ -39,7 +41,7 @@ public class Order extends AbstractEntity {
         dateTime = LocalDateTime.parse(dateTimeStr, formatter);
 
         List<Map<String, Object>> items = (List<Map<String, Object>>) document.get("Items");
-        items.forEach(productMap -> {
+        items.forEach((Map<String, Object> productMap) -> {
             String name = (String) productMap.get("Name");
             double quantity = (double) productMap.get("Quantity");
             double price = ((int) productMap.get("Price")) / 100.0;
