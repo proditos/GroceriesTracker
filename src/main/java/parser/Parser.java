@@ -1,12 +1,11 @@
 package parser;
 
-import entity.Order;
+import dto.ReceiptDto;
 import java.nio.file.Path;
-import java.util.Optional;
 
 /**
  * @author Vladislav Konovalov
  */
 public interface Parser {
-    Optional<Order> parseOrder(Path path);
+    ReceiptDto parse(Path path);
 }
