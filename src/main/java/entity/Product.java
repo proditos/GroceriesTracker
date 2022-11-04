@@ -13,6 +13,12 @@ public class Product extends AbstractEntity {
         this.price = price;
     }
 
+    public Product(String name, double price) {
+        super(null);
+        this.name = name;
+        this.price = price;
+    }
+
     public String getName() {
         return name;
     }

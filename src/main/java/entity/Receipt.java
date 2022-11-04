@@ -15,6 +15,12 @@ public class Receipt extends AbstractEntity {
         this.dateTime = dateTime;
     }
 
+    public Receipt(String sellerName, LocalDateTime dateTime) {
+        super(null);
+        this.sellerName = sellerName;
+        this.dateTime = dateTime;
+    }
+
     public String getSellerName() {
         return sellerName;
     }
