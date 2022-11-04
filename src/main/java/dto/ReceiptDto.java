@@ -1,6 +1,7 @@
 package dto;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,5 +25,17 @@ public class ReceiptDto extends AbstractDto {
         } else {
             productQuantityMap.put(product, quantity);
         }
+    }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public Map<ProductDto, Double> getProductQuantityMap() {
+        return Collections.unmodifiableMap(productQuantityMap);
     }
 }
