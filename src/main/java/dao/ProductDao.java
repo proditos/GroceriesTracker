@@ -18,22 +18,27 @@ public class ProductDao extends AbstractDao<Product> {
 
     @Override
     public void save(Product product) {
-        if (product == null) return;
+        if (product == null) {
+            throw new DaoException("An error occurred while saving a product, product is null");
+        }
         String query = "INSERT INTO products (name, price) VALUES(?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());
             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0)
-                throw new SQLException("An error occurred while saving a product, no rows affected");
+            if (affectedRows == 0) {
+                throw new DaoException("An error occurred while saving a product, no rows affected");
+            }
         } catch (SQLException e) {
             throw new DaoException("An error occurred while saving a product", e);
         }
     }
 
-    public Optional<Product> findBy(String name, double price) {
+    public Optional<Product> findLastBy(String name, double price) {
         Optional<Product> optional = Optional.empty();
-        if (name == null) return optional;
+        if (name == null) {
+            return optional;
+        }
         String query = "SELECT product_id FROM products WHERE name=? AND price=? ORDER BY product_id DESC";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, name);

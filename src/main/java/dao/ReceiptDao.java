@@ -20,23 +20,28 @@ public class ReceiptDao extends AbstractDao<Receipt> {
 
     @Override
     public void save(Receipt receipt) {
-        if (receipt == null) return;
+        if (receipt == null) {
+            throw new DaoException("An error occurred while saving the receipt, receipt is null");
+        }
         String query = "INSERT into receipts (seller_name, date_time) VALUES(?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             statement.setString(1, receipt.getSellerName());
             statement.setString(2, receipt.getDateTime().format(formatter));
             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0)
-                throw new SQLException("An error occurred while saving the receipt, no rows affected");
+            if (affectedRows == 0) {
+                throw new DaoException("An error occurred while saving the receipt, no rows affected");
+            }
         } catch (SQLException e) {
             throw new DaoException("An error occurred while saving the receipt", e);
         }
     }
 
-    public Optional<Receipt> findWithoutProductsBy(String sellerName, LocalDateTime dateTime) {
+    public Optional<Receipt> findLastWithoutProductsBy(String sellerName, LocalDateTime dateTime) {
         Optional<Receipt> optional = Optional.empty();
-        if (dateTime == null) return optional;
+        if (sellerName == null || dateTime == null) {
+            return optional;
+        }
         String query = "SELECT receipt_id FROM receipts WHERE seller_name=? AND date_time=? ORDER BY receipt_id DESC";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

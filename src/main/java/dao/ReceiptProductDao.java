@@ -16,15 +16,18 @@ public class ReceiptProductDao extends AbstractDao<ReceiptProduct> {
 
     @Override
     public void save(ReceiptProduct receiptProduct) {
-        if (receiptProduct == null) return;
+        if (receiptProduct == null) {
+            throw new DaoException("An error occurred while saving the receipt_product, receiptProduct is null");
+        }
         String query = "INSERT INTO receipts_products (receipt_id, product_id, quantity) VALUES(?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, receiptProduct.getReceiptId());
             statement.setLong(2, receiptProduct.getProductId());
             statement.setDouble(3, receiptProduct.getQuantity());
             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0)
-                throw new SQLException("An error occurred while saving the receipt_product, no rows affected");
+            if (affectedRows == 0) {
+                throw new DaoException("An error occurred while saving the receipt_product, no rows affected");
+            }
         } catch (SQLException e) {
             throw new DaoException("An error occurred while saving the receipt_product", e);
         }
