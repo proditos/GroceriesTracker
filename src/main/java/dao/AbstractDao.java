@@ -13,5 +13,5 @@ public abstract class AbstractDao<E extends AbstractEntity> {
         this.connection = connection;
     }
 
-    public abstract void save(E entity);
+    public abstract long save(E entity);
 }

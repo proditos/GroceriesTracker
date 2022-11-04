@@ -17,7 +17,7 @@ public class ProductDao extends AbstractDao<Product> {
     }
 
     @Override
-    public void save(Product product) {
+    public long save(Product product) {
         if (product == null) {
             throw new DaoException("An error occurred while saving a product, product is null");
         }
@@ -26,8 +26,11 @@ public class ProductDao extends AbstractDao<Product> {
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());
             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
+            Optional<Product> added = findLastBy(product.getName(), product.getPrice());
+            if (affectedRows == 0 || !added.isPresent()) {
                 throw new DaoException("An error occurred while saving a product, no rows affected");
+            } else {
+                return added.get().getId();
             }
         } catch (SQLException e) {
             throw new DaoException("An error occurred while saving a product", e);

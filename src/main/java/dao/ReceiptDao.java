@@ -19,7 +19,7 @@ public class ReceiptDao extends AbstractDao<Receipt> {
     }
 
     @Override
-    public void save(Receipt receipt) {
+    public long save(Receipt receipt) {
         if (receipt == null) {
             throw new DaoException("An error occurred while saving the receipt, receipt is null");
         }
@@ -29,15 +29,18 @@ public class ReceiptDao extends AbstractDao<Receipt> {
             statement.setString(1, receipt.getSellerName());
             statement.setString(2, receipt.getDateTime().format(formatter));
             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
+            Optional<Receipt> added = findLastBy(receipt.getSellerName(), receipt.getDateTime());
+            if (affectedRows == 0 || !added.isPresent()) {
                 throw new DaoException("An error occurred while saving the receipt, no rows affected");
+            } else {
+                return added.get().getId();
             }
         } catch (SQLException e) {
             throw new DaoException("An error occurred while saving the receipt", e);
         }
     }
 
-    public Optional<Receipt> findLastWithoutProductsBy(String sellerName, LocalDateTime dateTime) {
+    public Optional<Receipt> findLastBy(String sellerName, LocalDateTime dateTime) {
         Optional<Receipt> optional = Optional.empty();
         if (sellerName == null || dateTime == null) {
             return optional;
