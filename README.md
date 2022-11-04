@@ -1,7 +1,4 @@
 # Groceries tracker #
-
-
-## Description ##
 The application (script for now) that reads the json file of the receipt and writes
 data from it to the database.
 
