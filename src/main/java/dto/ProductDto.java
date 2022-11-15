@@ -48,4 +48,12 @@ public class ProductDto extends AbstractDto implements Comparable<ProductDto> {
     public int hashCode() {
         return Objects.hash(name, price);
     }
+
+    @Override
+    public String toString() {
+        return "ProductDto{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

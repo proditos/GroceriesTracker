@@ -14,8 +14,10 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jackson.version>2.13.4.2</jackson.version>
+        <jackson.version>2.14.0</jackson.version>
         <mariadb.version>3.0.8</mariadb.version>
+        <log4j2.version>2.19.0</log4j2.version>
+        <junit.version>5.9.0</junit.version>
     </properties>
 
     <dependencies>
@@ -29,6 +31,18 @@
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>${mariadb.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
         </dependency>
     </dependencies>
 </project>

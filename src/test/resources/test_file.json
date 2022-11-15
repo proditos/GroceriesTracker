@@ -1,0 +1,85 @@
+[
+  {
+    "status": 1,
+    "seller": {
+      "name": "Seller name",
+      "inn": "0123456789"
+    },
+    "operation": {
+      "date": 1,
+      "type": 1,
+      "sum": 30027
+    },
+    "id": "0123456789",
+    "organization": {
+      "name": "Seller name",
+      "inn": "0123456789"
+    },
+    "qr": "t=20220101T1200&s=300.27&fn=1&i=2&fp=3&n=1",
+    "query": {
+      "date": "2022-01-01T12:00",
+      "documentId": 1,
+      "fsId": "0123456789",
+      "fiscalSign": "0123456789",
+      "operationType": 1,
+      "sum": 30027
+    },
+    "ticket": {
+      "document": {
+        "receipt": {
+          "retailPlace": "Retail place",
+          "operator": "operator",
+          "internetSign": 1,
+          "totalSum": 30027,
+          "items": [
+            {
+              "ndsSum": 1,
+              "quantity": 1,
+              "productType": 1,
+              "nds": 1,
+              "price": 10027,
+              "paymentType": 1,
+              "name": "Cheese",
+              "sum": 10027
+            },
+            {
+              "ndsSum": 1,
+              "quantity": 0.5,
+              "productType": 1,
+              "nds": 1,
+              "price": 20000,
+              "paymentType": 1,
+              "name": "Milk",
+              "sum": 10000
+            }
+          ],
+          "userInn": "0123456789",
+          "code": 1,
+          "fnsUrl": "fnsUrl",
+          "requestNumber": 1,
+          "fiscalDriveNumber": "0123456789",
+          "shiftNumber": 1,
+          "kktRegId": "0123456789",
+          "provisionSum": 1,
+          "nds18": 1,
+          "dateTime": 1,
+          "ecashTotalSum": 30027,
+          "retailPlaceAddress": "retailPlaceAddress",
+          "fiscalSign": 1,
+          "user": "user",
+          "prepaidSum": 1,
+          "cashTotalSum": 1,
+          "buyerPhoneOrAddress": "buyerPhoneOrAddress",
+          "fiscalDocumentNumber": 1,
+          "operationType": 1,
+          "fiscalDocumentFormatVer": 1,
+          "creditSum": 1,
+          "taxationType": 1,
+          "nds10": 1
+        }
+      }
+    },
+    "kind": "kind",
+    "createdAt": 1
+  }
+]
