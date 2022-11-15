@@ -1,5 +1,6 @@
 package dto;
 
+import annotation.ExcludeFromJacocoGeneratedReport;
 import java.util.Objects;
 
 /**
@@ -9,15 +10,18 @@ public class ProductDto extends AbstractDto implements Comparable<ProductDto> {
     private final String name;
     private final double price;
 
+    @ExcludeFromJacocoGeneratedReport
     public ProductDto(String name, double price) {
         this.name = name;
         this.price = price;
     }
 
+    @ExcludeFromJacocoGeneratedReport
     public String getName() {
         return name;
     }
 
+    @ExcludeFromJacocoGeneratedReport
     public double getPrice() {
         return price;
     }
@@ -50,6 +54,7 @@ public class ProductDto extends AbstractDto implements Comparable<ProductDto> {
     }
 
     @Override
+    @ExcludeFromJacocoGeneratedReport
     public String toString() {
         return "ProductDto{" +
                 "name='" + name + '\'' +

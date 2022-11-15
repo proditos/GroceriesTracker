@@ -1,5 +1,6 @@
 package dao;
 
+import annotation.ExcludeFromJacocoGeneratedReport;
 import entity.Product;
 import exception.DaoException;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.util.Optional;
  * @author Vladislav Konovalov
  */
 public class ProductDao extends AbstractDao<Product> {
+    @ExcludeFromJacocoGeneratedReport
     public ProductDao(Connection connection) {
         super(connection);
     }

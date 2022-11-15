@@ -1,5 +1,6 @@
 package dao;
 
+import annotation.ExcludeFromJacocoGeneratedReport;
 import entity.AbstractEntity;
 import java.sql.Connection;
 
@@ -9,6 +10,7 @@ import java.sql.Connection;
 public abstract class AbstractDao<E extends AbstractEntity> {
     protected final Connection connection;
 
+    @ExcludeFromJacocoGeneratedReport
     protected AbstractDao(Connection connection) {
         this.connection = connection;
     }

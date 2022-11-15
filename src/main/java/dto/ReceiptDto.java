@@ -1,5 +1,6 @@
 package dto;
 
+import annotation.ExcludeFromJacocoGeneratedReport;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class ReceiptDto extends AbstractDto {
     private final LocalDateTime dateTime;
     private final Map<ProductDto, Double> productQuantityMap = new HashMap<>();
 
+    @ExcludeFromJacocoGeneratedReport
     public ReceiptDto(String sellerName, LocalDateTime dateTime) {
         this.sellerName = sellerName;
         this.dateTime = dateTime;
@@ -27,14 +29,17 @@ public class ReceiptDto extends AbstractDto {
         }
     }
 
+    @ExcludeFromJacocoGeneratedReport
     public String getSellerName() {
         return sellerName;
     }
 
+    @ExcludeFromJacocoGeneratedReport
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
+    @ExcludeFromJacocoGeneratedReport
     public Map<ProductDto, Double> getProductQuantityMap() {
         return Collections.unmodifiableMap(productQuantityMap);
     }

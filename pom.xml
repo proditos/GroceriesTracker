@@ -18,7 +18,7 @@
         <mariadb.version>3.0.8</mariadb.version>
         <log4j2.version>2.19.0</log4j2.version>
         <junit.version>5.9.0</junit.version>
-        <surfire.version>2.22.2</surfire.version>
+        <maven.surfire.version>2.22.2</maven.surfire.version>
         <jacoco.version>0.8.8</jacoco.version>
     </properties>
 
@@ -54,7 +54,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surfire.version}</version>
+                <version>${maven.surfire.version}</version>
             </plugin>
 
             <plugin>
@@ -63,8 +63,9 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>exception/*</exclude>
                         <exclude>common/Main.class</exclude>
+                        <exclude>exception/*</exclude>
+                        <exclude>entity/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

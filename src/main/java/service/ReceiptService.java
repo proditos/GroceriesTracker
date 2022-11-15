@@ -1,5 +1,6 @@
 package service;
 
+import annotation.ExcludeFromJacocoGeneratedReport;
 import dao.ProductDao;
 import dao.ReceiptDao;
 import dao.ReceiptProductDao;
@@ -27,6 +28,7 @@ public class ReceiptService extends AbstractService<ReceiptDto> {
     private final Mapper<ReceiptDto, Receipt> receiptMapper = new ReceiptMapper();
     private final Mapper<ProductDto, Product> productMapper = new ProductMapper();
 
+    @ExcludeFromJacocoGeneratedReport
     public ReceiptService(DataSource dataSource) {
         super(dataSource);
     }
