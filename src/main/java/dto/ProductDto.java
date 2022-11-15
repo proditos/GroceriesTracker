@@ -24,7 +24,12 @@ public class ProductDto extends AbstractDto implements Comparable<ProductDto> {
 
     @Override
     public int compareTo(ProductDto that) {
-        return this.getName().compareTo(that.getName());
+        int result = this.getName().compareTo(that.getName());
+        if (result != 0) {
+            return result;
+        } else {
+            return Double.compare(this.getPrice(), that.getPrice());
+        }
     }
 
     @Override
