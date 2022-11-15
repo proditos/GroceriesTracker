@@ -18,7 +18,7 @@
         <mariadb.version>3.0.8</mariadb.version>
         <log4j2.version>2.19.0</log4j2.version>
         <junit.version>5.9.0</junit.version>
-        <maven.surfire.version>2.22.2</maven.surfire.version>
+        <maven.surefire.version>2.22.2</maven.surefire.version>
         <jacoco.version>0.8.8</jacoco.version>
     </properties>
 
