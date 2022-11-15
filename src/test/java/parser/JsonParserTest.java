@@ -17,7 +17,7 @@ class JsonParserTest {
 
     @Test
     void testParse() {
-        String sellerName = "Seller nam";
+        String sellerName = "Seller name";
         LocalDateTime dateTime = LocalDateTime.of(2022, 1, 1, 12, 0);
         ReceiptDto expected = new ReceiptDto(sellerName, dateTime);
         expected.addProduct(new ProductDto("Cheese", 100.27), 1);
