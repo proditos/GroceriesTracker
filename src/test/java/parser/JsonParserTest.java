@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Vladislav Konovalov
  */
 class JsonParserTest {
-    private static final String ROOT_FOLDER = "./src/test/resources/";
+    private static final String ROOT_FOLDER = "./src/test/resources/parser/";
     private static final String FILENAME = "test_file.json";
     private final Parser jsonParser = new JsonParser();
 
