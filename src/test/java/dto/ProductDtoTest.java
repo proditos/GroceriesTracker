@@ -97,6 +97,15 @@ class ProductDtoTest {
     }
 
     @Test
+    void testEquals_DifferentClass() {
+        ProductDto product1 = new ProductDto("Cheese", 0.1);
+        Object product2 = new Object();
+
+        String equalsMessage = "Equals method should return false if the classes of the objects are different";
+        assertNotEquals(product1, product2, equalsMessage);
+    }
+
+    @Test
     void testCompareTo_Equal() {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         ProductDto product2 = new ProductDto("Cheese", 0.1);

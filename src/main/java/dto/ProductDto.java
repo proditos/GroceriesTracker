@@ -45,7 +45,7 @@ public class ProductDto extends AbstractDto implements Comparable<ProductDto> {
             return false;
         }
         ProductDto that = (ProductDto) object;
-        return Double.compare(that.price, price) == 0 && Objects.equals(name, that.name);
+        return Double.compare(price, that.price) == 0 && Objects.equals(name, that.name);
     }
 
     @Override
