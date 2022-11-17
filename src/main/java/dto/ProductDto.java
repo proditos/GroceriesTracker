@@ -10,6 +10,7 @@ public class ProductDto extends AbstractDto implements Comparable<ProductDto> {
     private final String name;
     private final double price;
 
+    @ExcludeFromJacocoGeneratedReport
     public ProductDto(String name, double price) {
         this.name = name;
         this.price = price;
