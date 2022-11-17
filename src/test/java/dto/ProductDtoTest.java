@@ -49,8 +49,10 @@ class ProductDtoTest {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         ProductDto product2 = new ProductDto("Cheese", 0.1);
 
+        boolean condition = product1.equals(product2) && product2.equals(product1);
+
         String equalsMessage = "Equals method should be symmetric";
-        assertTrue(product1.equals(product2) && product2.equals(product1), equalsMessage);
+        assertTrue(condition, equalsMessage);
         String hashCodeMessage = "Hash codes should be the same";
         assertEquals(product1.hashCode(), product2.hashCode(), hashCodeMessage);
     }
@@ -74,8 +76,10 @@ class ProductDtoTest {
     void testEquals_NotEqualsNull() {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
 
+        boolean condition = product1.equals(null);
+
         String equalsMessage = "Equals method should return false if compared to null";
-        assertNotEquals(null, product1, equalsMessage);
+        assertFalse(condition, equalsMessage);
     }
 
     @Test
@@ -83,8 +87,10 @@ class ProductDtoTest {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         ProductDto product2 = new ProductDto("Cheese", 0.11);
 
+        boolean condition = product1.equals(product2);
+
         String equalsMessage = "Equals method should return false if the prices of the products are different";
-        assertNotEquals(product1, product2, equalsMessage);
+        assertFalse(condition, equalsMessage);
     }
 
     @Test
@@ -92,8 +98,10 @@ class ProductDtoTest {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         ProductDto product2 = new ProductDto("Milk", 0.1);
 
+        boolean condition = product1.equals(product2);
+
         String equalsMessage = "Equals method should return false if the names of the products are different";
-        assertNotEquals(product1, product2, equalsMessage);
+        assertFalse(condition, equalsMessage);
     }
 
     @Test
@@ -101,53 +109,70 @@ class ProductDtoTest {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         Object product2 = new Object();
 
+        boolean condition = product1.equals(product2);
+
         String equalsMessage = "Equals method should return false if the classes of the objects are different";
-        assertNotEquals(product1, product2, equalsMessage);
+        assertFalse(condition, equalsMessage);
     }
 
     @Test
-    void testCompareTo_Equal() {
+    void testCompareTo_Equals() {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         ProductDto product2 = new ProductDto("Cheese", 0.1);
 
-        String message = "Should return zero for equal objects";
-        assertEquals(0, product1.compareTo(product2), message);
+        String message = "CompareTo method should be consistent with the equals method";
+        assertEquals(product1.equals(product2), product1.compareTo(product2) == 0, message);
     }
 
     @Test
-    void testCompareTo_GreaterThenByName() {
-        ProductDto product1 = new ProductDto("Milk", 0.1);
-        ProductDto product2 = new ProductDto("Cheese", 0.1);
-
-        String message = "Should return a positive integer if this object greater than the specified object by name";
-        assertTrue(product1.compareTo(product2) > 0, message);
-    }
-
-    @Test
-    void testCompareTo_GreaterThenByPrice() {
-        ProductDto product1 = new ProductDto("Cheese", 0.11);
-        ProductDto product2 = new ProductDto("Cheese", 0.1);
-
-        String message = "Should return a positive integer if this object greater than the specified object by price";
-        assertTrue(product1.compareTo(product2) > 0, message);
-    }
-
-    @Test
-    void testCompareTo_LessThenByName() {
+    void testCompareTo_Asymmetric() {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         ProductDto product2 = new ProductDto("Milk", 0.1);
 
-        String message = "Should return a negative integer if this object greater than the specified object by name";
-        assertTrue(product1.compareTo(product2) < 0, message);
+        boolean condition = (product1.compareTo(product2)) == (-1 * product2.compareTo(product1));
+
+        String message = "CompareTo method should be asymmetric";
+        assertTrue(condition, message);
     }
 
     @Test
-    void testCompareTo_LessThenByPrice() {
+    void testCompareTo_Transitive() {
+        ProductDto product1 = new ProductDto("Bread", 0.1);
+        ProductDto product2 = new ProductDto("Cheese", 0.1);
+        ProductDto product3 = new ProductDto("Milk", 0.1);
+
+        int comparison12 = product1.compareTo(product2);
+        int comparison23 = product2.compareTo(product3);
+        int comparison13 = product1.compareTo(product3);
+        boolean absCondition = comparison12 < 0 && comparison23 < 0 && comparison13 < 0;
+        boolean descCondition = comparison12 > 0 && comparison23 > 0 && comparison13 > 0;
+
+        String message = "CompareTo method should be transitive";
+        assertTrue(absCondition || descCondition, message);
+    }
+
+    @Test
+    void testCompareTo_BothMoreOrLess() {
+        ProductDto product1 = new ProductDto("Cheese", 0.1);
+        ProductDto product2 = new ProductDto("Cheese", 0.1);
+        ProductDto product3 = new ProductDto("Milk", 0.1);
+
+        int comparison12 = product1.compareTo(product2);
+        int comparison23 = product2.compareTo(product3);
+        int comparison13 = product1.compareTo(product3);
+        boolean condition = comparison12 == 0 && Integer.signum(comparison13) == Integer.signum(comparison23);
+
+        String message = "If two objects are equal, then they must both be greater or both less than the third object";
+        assertTrue(condition, message);
+    }
+
+    @Test
+    void testCompareTo_SecondField() {
         ProductDto product1 = new ProductDto("Cheese", 0.1);
         ProductDto product2 = new ProductDto("Cheese", 0.11);
 
-        String message = "Should return a negative integer if this object greater than the specified object by price";
-        assertTrue(product1.compareTo(product2) < 0, message);
+        String message = "Comparison should be for all significant fields of the class";
+        assertNotEquals(0, product1.compareTo(product2), message);
     }
 
     @Test
