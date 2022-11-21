@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
-    private static final String ROOT_FOLDER = "C:/Users/Prodi/Downloads/";
+    private static final String DOWNLOAD_FOLDER = System.getProperty("user.home") + "/Downloads/";
     private static final String FILENAME = "file.json";
     private static final MariaDbDataSource DATA_SOURCE = new MariaDbDataSource();
     private static final String DB_URL = "jdbc:mariadb://localhost:3306/groceries";
@@ -34,7 +34,7 @@ public class Main {
 
     public static void main(String[] args) {
         Parser parser = new JsonParser();
-        ReceiptDto receiptDto = parser.parse(Paths.get(ROOT_FOLDER + FILENAME));
+        ReceiptDto receiptDto = parser.parse(Paths.get(DOWNLOAD_FOLDER + FILENAME));
 
         ReceiptService receiptService = new ReceiptService(DATA_SOURCE);
         receiptService.add(receiptDto);
