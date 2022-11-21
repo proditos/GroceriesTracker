@@ -4,7 +4,7 @@ package entity;
  * @author Vladislav Konovalov
  */
 public abstract class AbstractEntity {
-    protected final Long id;
+    private final Long id;
 
     protected AbstractEntity(Long id) {
         this.id = id;
