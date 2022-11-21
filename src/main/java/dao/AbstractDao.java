@@ -10,6 +10,7 @@ import java.sql.Connection;
  * It contains a configured database {@link #connection}.
  * Subclasses of this class <b>must be immutable</b>.
  * The {@code autocommit} property <b>must be set</b> to {@code false}.
+ *
  * <p>Methods of this class can throw a {@link DaoException} if the entity is null or
  * errors occurred when saving the entity to the database.</p>
  *
