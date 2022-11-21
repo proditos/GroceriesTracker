@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class ReceiptDao extends AbstractDao<Receipt> {
+public final class ReceiptDao extends AbstractDao<Receipt> {
     @ExcludeFromJacocoGeneratedReport
     public ReceiptDao(Connection connection) {
         super(connection);

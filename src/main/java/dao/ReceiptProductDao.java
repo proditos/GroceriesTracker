@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class ReceiptProductDao extends AbstractDao<ReceiptProduct> {
+public final class ReceiptProductDao extends AbstractDao<ReceiptProduct> {
     @ExcludeFromJacocoGeneratedReport
     public ReceiptProductDao(Connection connection) {
         super(connection);
