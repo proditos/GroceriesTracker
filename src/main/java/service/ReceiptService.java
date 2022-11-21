@@ -14,6 +14,8 @@ import exception.ServiceException;
 import mapper.Mapper;
 import mapper.ProductMapper;
 import mapper.ReceiptMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,6 +27,7 @@ import java.util.Optional;
  * @author Vladislav Konovalov
  */
 public class ReceiptService extends AbstractService<ReceiptDto> {
+    private static final Logger LOGGER = LogManager.getLogger(ReceiptService.class);
     private final Mapper<ReceiptDto, Receipt> receiptMapper = new ReceiptMapper();
     private final Mapper<ProductDto, Product> productMapper = new ProductMapper();
 
@@ -76,16 +79,16 @@ public class ReceiptService extends AbstractService<ReceiptDto> {
                     connection.rollback();
                 }
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOGGER.error("An error occurred while trying to rollback database changes", ex);
             }
-            e.printStackTrace();
+            LOGGER.error("An error occurred while adding new receipt to the database", e);
         } finally {
             try {
                 if (connection != null) {
                     connection.close();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                LOGGER.error("An error occurred while trying to close the database connection", ex);
             }
         }
     }

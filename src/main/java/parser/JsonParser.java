@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.ProductDto;
 import dto.ReceiptDto;
 import exception.ParserException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -18,6 +20,7 @@ import java.util.Iterator;
  * @author Vladislav Konovalov
  */
 public class JsonParser implements Parser {
+    private static final Logger LOGGER = LogManager.getLogger(JsonParser.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public JsonParser() {
@@ -40,7 +43,7 @@ public class JsonParser implements Parser {
             }
             return receipt;
         } catch (ParserException | IOException e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred while parsing the json file", e);
         }
         return null;
     }

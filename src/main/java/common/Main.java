@@ -1,5 +1,7 @@
 package common;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mariadb.jdbc.MariaDbDataSource;
 import parser.JsonParser;
 import parser.Parser;
@@ -12,6 +14,7 @@ import java.sql.SQLException;
  * @author Vladislav Konovalov
  */
 public class Main {
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final String ROOT_FOLDER = "C:/Users/Prodi/Downloads/";
     private static final String FILENAME = "file.json";
     private static final MariaDbDataSource DATA_SOURCE = new MariaDbDataSource();
@@ -25,7 +28,7 @@ public class Main {
             DATA_SOURCE.setUser(DB_USERNAME);
             DATA_SOURCE.setPassword(DB_PASSWORD);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred while trying to connect the database", e);
         }
     }
 
