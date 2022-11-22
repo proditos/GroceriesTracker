@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public final class ProductDaoImpl implements ProductDao {
+public class ProductDaoImpl implements ProductDao {
     private final Connection connection;
 
     public ProductDaoImpl(Connection connection) {

@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public final class ReceiptDaoImpl implements ReceiptDao {
+public class ReceiptDaoImpl implements ReceiptDao {
     private final Connection connection;
 
     public ReceiptDaoImpl(Connection connection) {

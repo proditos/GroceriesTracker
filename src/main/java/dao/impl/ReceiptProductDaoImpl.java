@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public final class ReceiptProductDaoImpl implements ReceiptProductDao {
+public class ReceiptProductDaoImpl implements ReceiptProductDao {
     private final Connection connection;
 
     public ReceiptProductDaoImpl(Connection connection) {
