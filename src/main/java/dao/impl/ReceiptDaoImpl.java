@@ -1,6 +1,6 @@
-package dao;
+package dao.impl;
 
-import annotation.ExcludeFromJacocoGeneratedReport;
+import dao.api.ReceiptDao;
 import entity.Receipt;
 import exception.DaoException;
 import java.sql.Connection;
@@ -14,10 +14,11 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public final class ReceiptDao extends AbstractDao<Receipt> {
-    @ExcludeFromJacocoGeneratedReport
-    public ReceiptDao(Connection connection) {
-        super(connection);
+public final class ReceiptDaoImpl implements ReceiptDao {
+    private final Connection connection;
+
+    public ReceiptDaoImpl(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -42,6 +43,7 @@ public final class ReceiptDao extends AbstractDao<Receipt> {
         }
     }
 
+    @Override
     public Optional<Receipt> findLastBy(String sellerName, LocalDateTime dateTime) {
         Optional<Receipt> optional = Optional.empty();
         if (sellerName == null || dateTime == null) {

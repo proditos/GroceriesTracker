@@ -2,6 +2,8 @@ package mapper;
 
 import dto.ReceiptDto;
 import entity.Receipt;
+import mapper.api.Mapper;
+import mapper.impl.ReceiptMapper;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;

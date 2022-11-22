@@ -3,6 +3,8 @@ package parser;
 import dto.ProductDto;
 import dto.ReceiptDto;
 import org.junit.jupiter.api.Test;
+import parser.api.Parser;
+import parser.impl.JsonParser;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;

@@ -3,10 +3,12 @@ package common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mariadb.jdbc.MariaDbDataSource;
-import parser.JsonParser;
-import parser.Parser;
+import parser.impl.JsonParser;
+import parser.api.Parser;
 import dto.ReceiptDto;
-import service.ReceiptService;
+import service.api.ReceiptService;
+import service.impl.ReceiptServiceImpl;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
@@ -28,15 +30,16 @@ public class Main {
             DATA_SOURCE.setUser(DB_USERNAME);
             DATA_SOURCE.setPassword(DB_PASSWORD);
         } catch (SQLException e) {
-            LOGGER.error("An error occurred while trying to connect the database", e);
+            LOGGER.error("An error occurred while trying to connect to the database", e);
         }
     }
 
     public static void main(String[] args) {
+        Path pathToInputFile = Paths.get(DOWNLOAD_FOLDER + FILENAME);
         Parser parser = new JsonParser();
-        ReceiptDto receiptDto = parser.parse(Paths.get(DOWNLOAD_FOLDER + FILENAME));
+        ReceiptDto receiptDto = parser.parse(pathToInputFile);
 
-        ReceiptService receiptService = new ReceiptService(DATA_SOURCE);
+        ReceiptService receiptService = new ReceiptServiceImpl(DATA_SOURCE);
         receiptService.add(receiptDto);
     }
 }

@@ -3,7 +3,7 @@ package entity;
 /**
  * @author Vladislav Konovalov
  */
-public class ReceiptProduct extends AbstractEntity {
+public final class ReceiptProduct extends AbstractEntity {
     private final long receiptId;
     private final long productId;
     private final double quantity;

@@ -1,9 +1,11 @@
-package service;
+package service.impl;
 
-import annotation.ExcludeFromJacocoGeneratedReport;
-import dao.ProductDao;
-import dao.ReceiptDao;
-import dao.ReceiptProductDao;
+import dao.api.ProductDao;
+import dao.api.ReceiptDao;
+import dao.api.ReceiptProductDao;
+import dao.impl.ProductDaoImpl;
+import dao.impl.ReceiptDaoImpl;
+import dao.impl.ReceiptProductDaoImpl;
 import dto.ProductDto;
 import dto.ReceiptDto;
 import entity.Product;
@@ -11,11 +13,12 @@ import entity.Receipt;
 import entity.ReceiptProduct;
 import exception.DaoException;
 import exception.ServiceException;
-import mapper.Mapper;
-import mapper.ProductMapper;
-import mapper.ReceiptMapper;
+import mapper.api.Mapper;
+import mapper.impl.ProductMapper;
+import mapper.impl.ReceiptMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import service.api.ReceiptService;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -26,29 +29,30 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public class ReceiptService extends AbstractService<ReceiptDto> {
-    private static final Logger LOGGER = LogManager.getLogger(ReceiptService.class);
+public class ReceiptServiceImpl implements ReceiptService {
+    private static final Logger LOGGER = LogManager.getLogger(ReceiptServiceImpl.class);
     private final Mapper<ReceiptDto, Receipt> receiptMapper = new ReceiptMapper();
     private final Mapper<ProductDto, Product> productMapper = new ProductMapper();
+    private final DataSource dataSource;
 
-    @ExcludeFromJacocoGeneratedReport
-    public ReceiptService(DataSource dataSource) {
-        super(dataSource);
+    public ReceiptServiceImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
     public void add(ReceiptDto receiptDto) {
-        if (receiptDto == null) {
-            throw new ServiceException("The receiptDto is null");
-        }
         Connection connection = null;
         try {
+            if (receiptDto == null) {
+                throw new ServiceException("The receiptDto is null");
+            }
+
             connection = dataSource.getConnection();
             connection.setAutoCommit(false);
 
-            ReceiptDao receiptDao = new ReceiptDao(connection);
-            ReceiptProductDao receiptProductDao = new ReceiptProductDao(connection);
-            ProductDao productDao = new ProductDao(connection);
+            ReceiptDao receiptDao = new ReceiptDaoImpl(connection);
+            ReceiptProductDao receiptProductDao = new ReceiptProductDaoImpl(connection);
+            ProductDao productDao = new ProductDaoImpl(connection);
 
             String sellerName = receiptDto.getSellerName();
             LocalDateTime dateTime = receiptDto.getDateTime();

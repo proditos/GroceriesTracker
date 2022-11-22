@@ -1,7 +1,8 @@
-package mapper;
+package mapper.impl;
 
 import dto.ProductDto;
 import entity.Product;
+import mapper.api.Mapper;
 
 /**
  * @author Vladislav Konovalov

@@ -3,7 +3,7 @@ package entity;
 /**
  * @author Vladislav Konovalov
  */
-public class Product extends AbstractEntity {
+public final class Product extends AbstractEntity {
     private final String name;
     private final double price;
 

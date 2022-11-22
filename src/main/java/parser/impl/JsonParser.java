@@ -1,4 +1,4 @@
-package parser;
+package parser.impl;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,6 +8,7 @@ import dto.ReceiptDto;
 import exception.ParserException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import parser.api.Parser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -44,8 +45,8 @@ public class JsonParser implements Parser {
             return receipt;
         } catch (ParserException | IOException e) {
             LOGGER.error("An error occurred while parsing the json file", e);
+            return null;
         }
-        return null;
     }
 
     private String parseSellerName(JsonNode rootNode) {

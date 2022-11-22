@@ -1,6 +1,6 @@
-package dao;
+package dao.impl;
 
-import annotation.ExcludeFromJacocoGeneratedReport;
+import dao.api.ProductDao;
 import entity.Product;
 import exception.DaoException;
 import java.sql.Connection;
@@ -12,10 +12,11 @@ import java.util.Optional;
 /**
  * @author Vladislav Konovalov
  */
-public final class ProductDao extends AbstractDao<Product> {
-    @ExcludeFromJacocoGeneratedReport
-    public ProductDao(Connection connection) {
-        super(connection);
+public final class ProductDaoImpl implements ProductDao {
+    private final Connection connection;
+
+    public ProductDaoImpl(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -39,6 +40,7 @@ public final class ProductDao extends AbstractDao<Product> {
         }
     }
 
+    @Override
     public Optional<Product> findLastBy(String name, double price) {
         Optional<Product> optional = Optional.empty();
         if (name == null) {

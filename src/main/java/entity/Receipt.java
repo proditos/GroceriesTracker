@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * @author Vladislav Konovalov
  */
-public class Receipt extends AbstractEntity {
+public final class Receipt extends AbstractEntity {
     private final String sellerName;
     private final LocalDateTime dateTime;
 

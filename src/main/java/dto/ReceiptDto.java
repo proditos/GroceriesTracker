@@ -9,12 +9,11 @@ import java.util.Map;
 /**
  * @author Vladislav Konovalov
  */
-public class ReceiptDto extends AbstractDto {
+public final class ReceiptDto extends AbstractDto {
     private final String sellerName;
     private final LocalDateTime dateTime;
     private final Map<ProductDto, Double> productQuantityMap = new HashMap<>();
 
-    @ExcludeFromJacocoGeneratedReport
     public ReceiptDto(String sellerName, LocalDateTime dateTime) {
         this.sellerName = sellerName;
         this.dateTime = dateTime;

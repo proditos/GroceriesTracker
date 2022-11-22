@@ -1,7 +1,8 @@
-package mapper;
+package mapper.impl;
 
 import dto.ReceiptDto;
 import entity.Receipt;
+import mapper.api.Mapper;
 
 /**
  * @author Vladislav Konovalov
