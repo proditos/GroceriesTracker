@@ -14,18 +14,19 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class JsonParserTest {
     private static final String ROOT_FOLDER = "./src/test/resources/parser/";
-    private static final String FILENAME = "test_file.json";
+    private static final String CORRECT_FILE_NAME = "correct_test_file.json";
+    private static final String INCORRECT_FILE_NAME = "incorrect_test_file.json";
     private final Parser jsonParser = new JsonParser();
 
     @Test
-    void testParse() {
+    void testParse_CorrectFile() {
         String sellerName = "Seller name";
         LocalDateTime dateTime = LocalDateTime.of(2022, 1, 1, 12, 0);
         ReceiptDto expected = new ReceiptDto(sellerName, dateTime);
         expected.addProduct(new ProductDto("Cheese", 100.27), 1);
         expected.addProduct(new ProductDto("Milk", 200), 0.5);
 
-        ReceiptDto actual = jsonParser.parse(Paths.get(ROOT_FOLDER + FILENAME));
+        ReceiptDto actual = jsonParser.parse(Paths.get(ROOT_FOLDER + CORRECT_FILE_NAME));
 
         String notNullMessage = "The DTO should not be null";
         assertNotNull(actual, notNullMessage);
@@ -35,5 +36,13 @@ class JsonParserTest {
         assertEquals(expected.getDateTime(), actual.getDateTime(), dateTimeMessage);
         String productsMessage = "The DTO should have correct products and their quantities";
         assertEquals(expected.getProductQuantityMap(), actual.getProductQuantityMap(), productsMessage);
+    }
+
+    @Test
+    void testParse_IncorrectFile() {
+        ReceiptDto receiptDto = jsonParser.parse(Paths.get(ROOT_FOLDER + INCORRECT_FILE_NAME));
+
+        String message = "The DTO should be null";
+        assertNull(receiptDto, message);
     }
 }
