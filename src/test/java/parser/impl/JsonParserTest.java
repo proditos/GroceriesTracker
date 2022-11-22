@@ -1,10 +1,9 @@
-package parser;
+package parser.impl;
 
 import dto.ProductDto;
 import dto.ReceiptDto;
 import org.junit.jupiter.api.Test;
 import parser.api.Parser;
-import parser.impl.JsonParser;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Vladislav Konovalov
  */
 class JsonParserTest {
-    private static final String ROOT_FOLDER = "./src/test/resources/parser/";
+    private static final String ROOT_FOLDER = "./src/test/resources/parser/impl/";
     private static final String CORRECT_FILE_NAME = "correct_test_file.json";
     private static final String INCORRECT_FILE_NAME = "incorrect_test_file.json";
     private final Parser jsonParser = new JsonParser();

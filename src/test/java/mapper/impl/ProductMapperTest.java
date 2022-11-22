@@ -1,9 +1,8 @@
-package mapper;
+package mapper.impl;
 
 import dto.ProductDto;
 import entity.Product;
 import mapper.api.Mapper;
-import mapper.impl.ProductMapper;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
