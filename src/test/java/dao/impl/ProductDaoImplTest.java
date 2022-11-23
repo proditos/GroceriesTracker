@@ -83,7 +83,7 @@ class ProductDaoImplTest {
     }
 
     @Test
-    void testFindLastBy_DaoException() throws SQLException {
+    void testFindLastBy_SQLException() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
 
         String message = "Should throw DaoException if SQLException occurred";
