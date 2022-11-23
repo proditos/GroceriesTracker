@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Vladislav Konovalov
  */
 class ProductMapperTest {
-    private final Mapper<ProductDto, Product> productMapper = new ProductMapper();
+    final Mapper<ProductDto, Product> productMapper = new ProductMapper();
 
     @Test
     void testToEntity() {

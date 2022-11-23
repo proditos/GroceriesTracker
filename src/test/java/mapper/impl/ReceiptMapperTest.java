@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Vladislav Konovalov
  */
 class ReceiptMapperTest {
-    private final Mapper<ReceiptDto, Receipt> receiptMapper = new ReceiptMapper();
+    final Mapper<ReceiptDto, Receipt> receiptMapper = new ReceiptMapper();
 
     @Test
     void testToEntity() {

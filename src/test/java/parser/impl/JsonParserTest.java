@@ -15,7 +15,7 @@ class JsonParserTest {
     private static final String ROOT_FOLDER = "./src/test/resources/parser/impl/";
     private static final String CORRECT_FILE_NAME = "correct_test_file.json";
     private static final String INCORRECT_FILE_NAME = "incorrect_test_file.json";
-    private final Parser jsonParser = new JsonParser();
+    final Parser jsonParser = new JsonParser();
 
     @Test
     void testParse_CorrectFile() {
