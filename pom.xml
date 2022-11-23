@@ -18,6 +18,7 @@
         <mariadb.version>3.0.8</mariadb.version>
         <log4j2.version>2.19.0</log4j2.version>
         <junit.version>5.9.0</junit.version>
+        <mockito.version>4.9.0</mockito.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <jacoco.version>0.8.8</jacoco.version>
     </properties>
@@ -55,6 +56,20 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
