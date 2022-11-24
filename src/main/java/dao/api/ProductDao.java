@@ -14,23 +14,21 @@ import java.util.Optional;
  */
 public interface ProductDao {
     /**
-     * Saves the product to the database and returns the database generated id.
+     * Saves the product to the database.
      *
      * @param product the product to save.
-     * @return the database generated id.
      * @throws DaoException if the product is null or any errors occurred while saving the product.
      */
-    long save(Product product);
+    void save(Product product);
 
     /**
-     * Searches for the product by the specified parameters.
+     * Searches for the product by the all its fields except id.
      * If several are found, returns the last one added.
      *
-     * @param name the product name.
-     * @param price the product price.
-     * @return {@code Optional.empty()} if the product name is null or the product was not found.
+     * @param product the product to find.
+     * @return {@code Optional.empty()} if the product was not found.
      * In all other cases, returns {@code Optional.of(Product)}.
-     * @throws DaoException if there are any errors when searching for the product.
+     * @throws DaoException if the product is null or any errors occurred while searching for the product.
      */
-    Optional<Product> findLastBy(String name, double price);
+    Optional<Product> findLast(Product product);
 }

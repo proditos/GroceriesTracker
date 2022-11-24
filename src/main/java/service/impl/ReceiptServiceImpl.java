@@ -22,7 +22,6 @@ import service.api.ReceiptService;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,6 +39,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    // TODO: Refactor this horrible method
     public void add(ReceiptDto receiptDto) {
         Connection connection = null;
         try {
@@ -54,25 +54,38 @@ public class ReceiptServiceImpl implements ReceiptService {
             ReceiptProductDao receiptProductDao = new ReceiptProductDaoImpl(connection);
             ProductDao productDao = new ProductDaoImpl(connection);
 
-            String sellerName = receiptDto.getSellerName();
-            LocalDateTime dateTime = receiptDto.getDateTime();
-            if (receiptDao.findLastBy(sellerName, dateTime).isPresent()) {
+            Receipt receipt = receiptMapper.toEntity(receiptDto);
+            if (receiptDao.findLast(receipt).isPresent()) {
                 return;
             }
-            long receiptId = receiptDao.save(receiptMapper.toEntity(receiptDto));
+            receiptDao.save(receipt);
+            Optional<Receipt> foundReceipt = receiptDao.findLast(receipt);
+            long receiptId;
+            if (foundReceipt.isPresent()) {
+                receiptId = foundReceipt.get().getId();
+            } else {
+                throw new ServiceException("The receipt is saved but not found");
+            }
 
             for (Map.Entry<ProductDto, Double> productQuantity : receiptDto.getProductQuantityMap().entrySet()) {
                 ProductDto productDto = productQuantity.getKey();
                 double quantity = productQuantity.getValue();
-                Optional<Product> foundProduct = productDao.findLastBy(productDto.getName(), productDto.getPrice());
+                Optional<Product> foundProduct = productDao.findLast(productMapper.toEntity(productDto));
                 if (foundProduct.isPresent()) {
                     long productId = foundProduct.get().getId();
                     ReceiptProduct receiptProduct = new ReceiptProduct(receiptId, productId, quantity);
                     receiptProductDao.save(receiptProduct);
                 } else {
-                    long productId = productDao.save(productMapper.toEntity(productDto));
-                    ReceiptProduct receiptProduct = new ReceiptProduct(receiptId, productId, quantity);
-                    receiptProductDao.save(receiptProduct);
+                    Product product = productMapper.toEntity(productDto);
+                    productDao.save(product);
+                    foundProduct = productDao.findLast(product);
+                    if (foundProduct.isPresent()) {
+                        long productId = foundProduct.get().getId();
+                        ReceiptProduct receiptProduct = new ReceiptProduct(receiptId, productId, quantity);
+                        receiptProductDao.save(receiptProduct);
+                    } else {
+                        throw new ServiceException("The product is saved but not found");
+                    }
                 }
             }
 

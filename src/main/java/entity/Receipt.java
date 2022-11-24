@@ -28,4 +28,12 @@ public final class Receipt extends AbstractEntity {
     public LocalDateTime getDateTime() {
         return dateTime;
     }
+
+    @Override
+    public String toString() {
+        return "Receipt{" +
+                "sellerName='" + sellerName + '\'' +
+                ", dateTime=" + dateTime +
+                '}';
+    }
 }

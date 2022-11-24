@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -15,6 +14,7 @@ import java.util.Optional;
  * @author Vladislav Konovalov
  */
 public class ReceiptDaoImpl implements ReceiptDao {
+    private static final DateTimeFormatter DATE_TIME_PATTERN = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final Connection connection;
 
     public ReceiptDaoImpl(Connection connection) {
@@ -22,47 +22,51 @@ public class ReceiptDaoImpl implements ReceiptDao {
     }
 
     @Override
-    public long save(Receipt receipt) {
+    public void save(Receipt receipt) {
         if (receipt == null) {
-            throw new DaoException("An error occurred while saving the receipt, receipt is null");
+            throw new DaoException("An error occurred while saving the receipt, the receipt is null");
         }
         String query = "INSERT into receipts (seller_name, date_time) VALUES(?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             statement.setString(1, receipt.getSellerName());
-            statement.setString(2, receipt.getDateTime().format(formatter));
-            int affectedRows = statement.executeUpdate();
-            Optional<Receipt> added = findLastBy(receipt.getSellerName(), receipt.getDateTime());
-            if (affectedRows == 0 || !added.isPresent()) {
-                throw new DaoException("An error occurred while saving the receipt, no rows affected");
+            if (receipt.getDateTime() == null) {
+                statement.setString(2, null);
             } else {
-                return added.get().getId();
+                statement.setString(2, receipt.getDateTime().format(DATE_TIME_PATTERN));
+            }
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DaoException("An error occurred while saving the receipt, no rows affected");
             }
         } catch (SQLException e) {
-            throw new DaoException("An error occurred while saving the receipt", e);
+            String message = "An error occurred while saving the " + receipt;
+            throw new DaoException(message, e);
         }
     }
 
     @Override
-    public Optional<Receipt> findLastBy(String sellerName, LocalDateTime dateTime) {
+    public Optional<Receipt> findLast(Receipt receipt) {
         Optional<Receipt> optional = Optional.empty();
-        if (sellerName == null || dateTime == null) {
-            return optional;
+        if (receipt == null) {
+            throw new DaoException("An error occurred while searching for the receipt, the receipt is null");
         }
         String query = "SELECT receipt_id FROM receipts WHERE seller_name=? AND date_time=? ORDER BY receipt_id DESC";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            statement.setString(1, sellerName);
-            statement.setString(2, dateTime.format(formatter));
+            statement.setString(1, receipt.getSellerName());
+            if (receipt.getDateTime() == null) {
+                statement.setString(2, null);
+            } else {
+                statement.setString(2, receipt.getDateTime().format(DATE_TIME_PATTERN));
+            }
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     long id = resultSet.getLong("receipt_id");
-                    optional = Optional.of(new Receipt(id, sellerName, dateTime));
+                    optional = Optional.of(new Receipt(id, receipt.getSellerName(), receipt.getDateTime()));
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("An error occurred while receiving a receipt by seller_name='" + sellerName +
-                    "' and datetime='" + dateTime + "'", e);
+            String message = "An error occurred while searching for the " + receipt;
+            throw new DaoException(message, e);
         }
         return optional;
     }

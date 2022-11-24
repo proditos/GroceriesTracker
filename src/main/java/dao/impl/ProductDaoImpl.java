@@ -20,45 +20,42 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public long save(Product product) {
+    public void save(Product product) {
         if (product == null) {
-            throw new DaoException("An error occurred while saving a product, product is null");
+            throw new DaoException("An error occurred while saving the product, the product is null");
         }
         String query = "INSERT INTO products (name, price) VALUES(?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());
             int affectedRows = statement.executeUpdate();
-            Optional<Product> added = findLastBy(product.getName(), product.getPrice());
-            if (affectedRows == 0 || !added.isPresent()) {
-                throw new DaoException("An error occurred while saving a product, no rows affected");
-            } else {
-                return added.get().getId();
+            if (affectedRows == 0) {
+                throw new DaoException("An error occurred while saving the product, no rows affected");
             }
         } catch (SQLException e) {
-            throw new DaoException("An error occurred while saving a product", e);
+            String message = "An error occurred while saving the " + product;
+            throw new DaoException(message, e);
         }
     }
 
     @Override
-    public Optional<Product> findLastBy(String name, double price) {
+    public Optional<Product> findLast(Product product) {
         Optional<Product> optional = Optional.empty();
-        if (name == null) {
-            return optional;
+        if (product == null) {
+            throw new DaoException("An error occurred while searching for the product, the product is null");
         }
         String query = "SELECT product_id FROM products WHERE name=? AND price=? ORDER BY product_id DESC";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, name);
-            statement.setDouble(2, price);
+            statement.setString(1, product.getName());
+            statement.setDouble(2, product.getPrice());
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     long id = resultSet.getLong("product_id");
-                    optional = Optional.of(new Product(id, name, price));
+                    optional = Optional.of(new Product(id, product.getName(), product.getPrice()));
                 }
             }
         } catch (SQLException e) {
-            String message = "An error occurred while receiving a product by name='" + name +
-                    "' and price='" + price + "'";
+            String message = "An error occurred while searching for the " + product;
             throw new DaoException(message, e);
         }
         return optional;
