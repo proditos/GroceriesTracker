@@ -12,7 +12,7 @@ import dto.ReceiptDto;
  */
 public interface ReceiptService {
     /**
-     * Adds a receipt and all products with their quantity from it to the database.
+     * Adds the receipt and all products with their quantity from it to the database.
      * If the receipt or product is already in the database, they will not be added again.
      *
      * @param receiptDto the receipt DTO.
