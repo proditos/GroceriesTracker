@@ -19,6 +19,14 @@ public final class ReceiptDto extends AbstractDto {
         this.dateTime = dateTime;
     }
 
+    /**
+     * Adds the product to the receipt.
+     * If the product is already in the receipt,
+     * it will not be added again, but its quantity increases.
+     *
+     * @param product the product to be added.
+     * @param quantity product quantity.
+     */
     public void addProduct(ProductDto product, double quantity) {
         if (productQuantityMap.containsKey(product)) {
             double newQuantity = productQuantityMap.get(product) + quantity;
