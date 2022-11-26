@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.api.ReceiptProductDao;
 import entity.ReceiptProduct;
-import exception.DaoException;
+import exception.TechnicalException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,8 +51,8 @@ class ReceiptProductDaoImplTest {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeUpdate()).thenReturn(0);
 
-        String message = "Should throw DaoException if the receiptProduct is not saved";
-        assertThrows(DaoException.class, () -> receiptProductDao.save(receiptProduct), message);
+        String message = "Should throw TechnicalException if the receiptProduct is not saved";
+        assertThrows(TechnicalException.class, () -> receiptProductDao.save(receiptProduct), message);
         verify(mockConnection, times(1)).prepareStatement(contains("?"));
         verify(mockPreparedStatement, times(1)).executeUpdate();
         verify(mockPreparedStatement, times(1)).close();
@@ -60,8 +60,8 @@ class ReceiptProductDaoImplTest {
 
     @Test
     void testSave_ReceiptProductIsNull() {
-        String message = "Should throw a DaoException if the receiptProduct is null";
-        assertThrows(DaoException.class, () -> receiptProductDao.save(null), message);
+        String message = "Should throw a TechnicalException if the receiptProduct is null";
+        assertThrows(TechnicalException.class, () -> receiptProductDao.save(null), message);
     }
 
     @Test
@@ -69,7 +69,7 @@ class ReceiptProductDaoImplTest {
         ReceiptProduct receiptProduct = new ReceiptProduct(1L, 1L, 1.0);
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
 
-        String message = "Should throw a DaoException if SQLException occurred";
-        assertThrows(DaoException.class, () -> receiptProductDao.save(receiptProduct), message);
+        String message = "Should throw a TechnicalException if SQLException occurred";
+        assertThrows(TechnicalException.class, () -> receiptProductDao.save(receiptProduct), message);
     }
 }

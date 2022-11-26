@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.api.ProductDao;
 import entity.Product;
-import exception.DaoException;
+import exception.TechnicalException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +22,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void save(Product product) {
         if (product == null) {
-            throw new DaoException("An error occurred while saving the product, the product is null");
+            throw new TechnicalException("An error occurred while saving the product, the product is null");
         }
         String query = "INSERT INTO products (name, price) VALUES(?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -30,11 +30,11 @@ public class ProductDaoImpl implements ProductDao {
             statement.setDouble(2, product.getPrice());
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-                throw new DaoException("An error occurred while saving the product, no rows affected");
+                throw new TechnicalException("An error occurred while saving the product, no rows affected");
             }
         } catch (SQLException e) {
             String message = "An error occurred while saving the " + product;
-            throw new DaoException(message, e);
+            throw new TechnicalException(message, e);
         }
     }
 
@@ -42,7 +42,7 @@ public class ProductDaoImpl implements ProductDao {
     public Optional<Product> findLast(Product product) {
         Optional<Product> optional = Optional.empty();
         if (product == null) {
-            throw new DaoException("An error occurred while searching for the product, the product is null");
+            throw new TechnicalException("An error occurred while searching for the product, the product is null");
         }
         String query = "SELECT product_id FROM products WHERE name=? AND price=? ORDER BY product_id DESC";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -56,7 +56,7 @@ public class ProductDaoImpl implements ProductDao {
             }
         } catch (SQLException e) {
             String message = "An error occurred while searching for the " + product;
-            throw new DaoException(message, e);
+            throw new TechnicalException(message, e);
         }
         return optional;
     }

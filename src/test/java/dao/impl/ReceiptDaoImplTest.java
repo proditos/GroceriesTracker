@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.api.ReceiptDao;
 import entity.Receipt;
-import exception.DaoException;
+import exception.TechnicalException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,8 +75,8 @@ class ReceiptDaoImplTest {
 
     @Test
     void testFindLast_ReceiptIsNull() {
-        String message = "Should throw a DaoException if the receipt is null";
-        assertThrows(DaoException.class, () -> receiptDao.findLast(null), message);
+        String message = "Should throw a TechnicalException if the receipt is null";
+        assertThrows(TechnicalException.class, () -> receiptDao.findLast(null), message);
     }
 
     @Test
@@ -84,8 +84,8 @@ class ReceiptDaoImplTest {
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
         Receipt receipt = new Receipt("SellerName", LocalDateTime.now());
 
-        String message = "Should throw a DaoException if SQLException occurred";
-        assertThrows(DaoException.class, () -> receiptDao.findLast(receipt), message);
+        String message = "Should throw a TechnicalException if SQLException occurred";
+        assertThrows(TechnicalException.class, () -> receiptDao.findLast(receipt), message);
     }
 
     @Test
@@ -107,8 +107,8 @@ class ReceiptDaoImplTest {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeUpdate()).thenReturn(0);
 
-        String message = "Should throw DaoException if the receipt is not saved";
-        assertThrows(DaoException.class, () -> receiptDao.save(receipt), message);
+        String message = "Should throw TechnicalException if the receipt is not saved";
+        assertThrows(TechnicalException.class, () -> receiptDao.save(receipt), message);
         verify(mockConnection, times(1)).prepareStatement(contains("?"));
         verify(mockPreparedStatement, times(1)).executeUpdate();
         verify(mockPreparedStatement, times(1)).close();
@@ -116,8 +116,8 @@ class ReceiptDaoImplTest {
 
     @Test
     void testSave_ReceiptIsNull() {
-        String message = "Should throw a DaoException if the receipt is null";
-        assertThrows(DaoException.class, () -> receiptDao.save(null), message);
+        String message = "Should throw a TechnicalException if the receipt is null";
+        assertThrows(TechnicalException.class, () -> receiptDao.save(null), message);
     }
 
     @Test
@@ -125,7 +125,7 @@ class ReceiptDaoImplTest {
         Receipt receipt = new Receipt("SellerName", LocalDateTime.now());
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
 
-        String message = "Should throw a DaoException if SQLException occurred";
-        assertThrows(DaoException.class, () -> receiptDao.save(receipt), message);
+        String message = "Should throw a TechnicalException if SQLException occurred";
+        assertThrows(TechnicalException.class, () -> receiptDao.save(receipt), message);
     }
 }

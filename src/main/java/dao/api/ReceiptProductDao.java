@@ -1,7 +1,7 @@
 package dao.api;
 
 import entity.ReceiptProduct;
-import exception.DaoException;
+import exception.TechnicalException;
 
 /**
  * The interface that allows the user to interact with the data in the receipts_products linking table in the database.
@@ -16,7 +16,7 @@ public interface ReceiptProductDao {
      * Saves the entry linking the product to the receipt to the database.
      *
      * @param receiptProduct the entry linking the product to the receipt to save.
-     * @throws DaoException if the receiptProduct is null or any errors occurred while saving the entry.
+     * @throws TechnicalException if the receiptProduct is null or any errors occurred while saving the entry.
      */
     void save(ReceiptProduct receiptProduct);
 }

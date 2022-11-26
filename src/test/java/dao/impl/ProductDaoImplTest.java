@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.api.ProductDao;
 import entity.Product;
-import exception.DaoException;
+import exception.TechnicalException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,8 +73,8 @@ class ProductDaoImplTest {
 
     @Test
     void testFindLast_ProductIsNull() {
-        String message = "Should throw a DaoException if the product is null";
-        assertThrows(DaoException.class, () -> productDao.findLast(null), message);
+        String message = "Should throw a TechnicalException if the product is null";
+        assertThrows(TechnicalException.class, () -> productDao.findLast(null), message);
     }
 
     @Test
@@ -82,8 +82,8 @@ class ProductDaoImplTest {
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
         Product product = new Product("Name", 1.0);
 
-        String message = "Should throw a DaoException if SQLException occurred";
-        assertThrows(DaoException.class, () -> productDao.findLast(product), message);
+        String message = "Should throw a TechnicalException if SQLException occurred";
+        assertThrows(TechnicalException.class, () -> productDao.findLast(product), message);
     }
 
     @Test
@@ -105,8 +105,8 @@ class ProductDaoImplTest {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeUpdate()).thenReturn(0);
 
-        String message = "Should throw DaoException if the product is not saved";
-        assertThrows(DaoException.class, () -> productDao.save(product), message);
+        String message = "Should throw TechnicalException if the product is not saved";
+        assertThrows(TechnicalException.class, () -> productDao.save(product), message);
         verify(mockConnection, times(1)).prepareStatement(contains("?"));
         verify(mockPreparedStatement, times(1)).executeUpdate();
         verify(mockPreparedStatement, times(1)).close();
@@ -114,8 +114,8 @@ class ProductDaoImplTest {
 
     @Test
     void testSave_ProductIsNull() {
-        String message = "Should throw a DaoException if the product is null";
-        assertThrows(DaoException.class, () -> productDao.save(null), message);
+        String message = "Should throw a TechnicalException if the product is null";
+        assertThrows(TechnicalException.class, () -> productDao.save(null), message);
     }
 
     @Test
@@ -123,7 +123,7 @@ class ProductDaoImplTest {
         Product product = new Product("Name", 1.0);
         when(mockConnection.prepareStatement(anyString())).thenThrow(SQLException.class);
 
-        String message = "Should throw a DaoException if SQLException occurred";
-        assertThrows(DaoException.class, () -> productDao.save(product), message);
+        String message = "Should throw a TechnicalException if SQLException occurred";
+        assertThrows(TechnicalException.class, () -> productDao.save(product), message);
     }
 }

@@ -11,8 +11,7 @@ import dto.ReceiptDto;
 import entity.Product;
 import entity.Receipt;
 import entity.ReceiptProduct;
-import exception.DaoException;
-import exception.ServiceException;
+import exception.TechnicalException;
 import mapper.api.Mapper;
 import mapper.impl.ProductMapper;
 import mapper.impl.ReceiptMapper;
@@ -44,7 +43,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         Connection connection = null;
         try {
             if (receiptDto == null) {
-                throw new ServiceException("The receiptDto is null");
+                throw new TechnicalException("The receiptDto is null");
             }
 
             connection = dataSource.getConnection();
@@ -64,7 +63,7 @@ public class ReceiptServiceImpl implements ReceiptService {
             if (foundReceipt.isPresent()) {
                 receiptId = foundReceipt.get().getId();
             } else {
-                throw new ServiceException("The receipt is saved but not found");
+                throw new TechnicalException("The receipt is saved but not found");
             }
 
             for (Map.Entry<ProductDto, Double> productQuantity : receiptDto.getProductQuantityMap().entrySet()) {
@@ -84,13 +83,13 @@ public class ReceiptServiceImpl implements ReceiptService {
                         ReceiptProduct receiptProduct = new ReceiptProduct(receiptId, productId, quantity);
                         receiptProductDao.save(receiptProduct);
                     } else {
-                        throw new ServiceException("The product is saved but not found");
+                        throw new TechnicalException("The product is saved but not found");
                     }
                 }
             }
 
             connection.commit();
-        } catch (ServiceException | DaoException | SQLException e) {
+        } catch (TechnicalException | SQLException e) {
             try {
                 if (connection != null){
                     connection.rollback();

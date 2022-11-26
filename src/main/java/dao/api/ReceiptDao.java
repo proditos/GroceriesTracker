@@ -1,7 +1,7 @@
 package dao.api;
 
 import entity.Receipt;
-import exception.DaoException;
+import exception.TechnicalException;
 import java.util.Optional;
 
 /**
@@ -17,7 +17,7 @@ public interface ReceiptDao {
      * Saves the receipt to the database.
      *
      * @param receipt the receipt to save.
-     * @throws DaoException if the receipt is null or any errors occurred while saving the receipt.
+     * @throws TechnicalException if the receipt is null or any errors occurred while saving the receipt.
      */
     void save(Receipt receipt);
 
@@ -28,7 +28,7 @@ public interface ReceiptDao {
      * @param receipt the receipt to find.
      * @return {@code Optional.empty()} if the receipt was not found.
      * In all other cases, returns {@code Optional.of(Receipt)}.
-     * @throws DaoException if the receipt is null or any errors occurred while searching for the receipt.
+     * @throws TechnicalException if the receipt is null or any errors occurred while searching for the receipt.
      */
     Optional<Receipt> findLast(Receipt receipt);
 }

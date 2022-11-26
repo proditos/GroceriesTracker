@@ -1,7 +1,7 @@
 package dao.api;
 
 import entity.Product;
-import exception.DaoException;
+import exception.TechnicalException;
 import java.util.Optional;
 
 /**
@@ -17,7 +17,7 @@ public interface ProductDao {
      * Saves the product to the database.
      *
      * @param product the product to save.
-     * @throws DaoException if the product is null or any errors occurred while saving the product.
+     * @throws TechnicalException if the product is null or any errors occurred while saving the product.
      */
     void save(Product product);
 
@@ -28,7 +28,7 @@ public interface ProductDao {
      * @param product the product to find.
      * @return {@code Optional.empty()} if the product was not found.
      * In all other cases, returns {@code Optional.of(Product)}.
-     * @throws DaoException if the product is null or any errors occurred while searching for the product.
+     * @throws TechnicalException if the product is null or any errors occurred while searching for the product.
      */
     Optional<Product> findLast(Product product);
 }
