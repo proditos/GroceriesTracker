@@ -89,6 +89,7 @@
                 <configuration>
                     <excludes>
                         <exclude>common/Main.class</exclude>
+                        <exclude>connection/impl/MariaDbSingletonConnection.class</exclude>
                         <exclude>exception/*</exclude>
                         <exclude>entity/*</exclude>
                     </excludes>

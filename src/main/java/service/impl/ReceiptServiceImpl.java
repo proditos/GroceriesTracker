@@ -1,5 +1,6 @@
 package service.impl;
 
+import connection.api.SingletonConnection;
 import dao.api.ProductDao;
 import dao.api.ReceiptDao;
 import dao.api.ReceiptProductDao;
@@ -18,9 +19,6 @@ import mapper.impl.ReceiptMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.api.ReceiptService;
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,27 +29,25 @@ public class ReceiptServiceImpl implements ReceiptService {
     private static final Logger LOGGER = LogManager.getLogger(ReceiptServiceImpl.class);
     private final Mapper<ReceiptDto, Receipt> receiptMapper = new ReceiptMapper();
     private final Mapper<ProductDto, Product> productMapper = new ProductMapper();
-    private final DataSource dataSource;
+    private final SingletonConnection singletonConnection;
+    private final ReceiptDao receiptDao;
+    private final ReceiptProductDao receiptProductDao;
+    private final ProductDao productDao;
 
-    public ReceiptServiceImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public ReceiptServiceImpl(SingletonConnection singletonConnection) {
+        this.singletonConnection = singletonConnection;
+        receiptDao = new ReceiptDaoImpl(singletonConnection.getInstance());
+        receiptProductDao = new ReceiptProductDaoImpl(singletonConnection.getInstance());
+        productDao = new ProductDaoImpl(singletonConnection.getInstance());
     }
 
     @Override
     // TODO: Refactor this horrible method
     public void add(ReceiptDto receiptDto) {
-        Connection connection = null;
         try {
             if (receiptDto == null) {
                 throw new TechnicalException("The receiptDto is null");
             }
-
-            connection = dataSource.getConnection();
-            connection.setAutoCommit(false);
-
-            ReceiptDao receiptDao = new ReceiptDaoImpl(connection);
-            ReceiptProductDao receiptProductDao = new ReceiptProductDaoImpl(connection);
-            ProductDao productDao = new ProductDaoImpl(connection);
 
             Receipt receipt = receiptMapper.toEntity(receiptDto);
             if (receiptDao.findLast(receipt).isPresent()) {
@@ -88,24 +84,10 @@ public class ReceiptServiceImpl implements ReceiptService {
                 }
             }
 
-            connection.commit();
-        } catch (TechnicalException | SQLException e) {
-            try {
-                if (connection != null){
-                    connection.rollback();
-                }
-            } catch (SQLException ex) {
-                LOGGER.error("An error occurred while trying to rollback database changes", ex);
-            }
+            singletonConnection.commit();
+        } catch (TechnicalException e) {
+            singletonConnection.rollback();
             LOGGER.error("An error occurred while adding new receipt to the database", e);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                LOGGER.error("An error occurred while trying to close the database connection", ex);
-            }
         }
     }
 }
