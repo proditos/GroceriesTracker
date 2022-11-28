@@ -22,6 +22,7 @@ import java.util.Iterator;
  */
 public class JsonParser implements Parser {
     private static final Logger LOGGER = LogManager.getLogger(JsonParser.class);
+    private static final String NULL_ERROR_MSG = "Input JsonNode is null";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public JsonParser() {
@@ -30,6 +31,9 @@ public class JsonParser implements Parser {
 
     @Override
     public ReceiptDto parse(Path path) {
+        if (path == null) {
+            return null;
+        }
         try (InputStream is = Files.newInputStream(path)) {
             JsonNode rootNode = objectMapper.readTree(is);
             String sellerName = parseSellerName(rootNode);
@@ -50,6 +54,7 @@ public class JsonParser implements Parser {
     }
 
     private String parseSellerName(JsonNode rootNode) {
+        assert rootNode != null : NULL_ERROR_MSG;
         JsonNode sellerNameNode = rootNode.findPath("seller").path("name");
         if (sellerNameNode.isMissingNode()) {
             throw new ParserException("The seller's name is missing");
@@ -59,6 +64,7 @@ public class JsonParser implements Parser {
     }
 
     private LocalDateTime parseDateTime(JsonNode rootNode) {
+        assert rootNode != null : NULL_ERROR_MSG;
         JsonNode dateTimeNode = rootNode.findPath("query").path("date");
         if (dateTimeNode.isMissingNode()) {
             throw new ParserException("The receipt datetime is missing");
@@ -69,6 +75,7 @@ public class JsonParser implements Parser {
     }
 
     private Iterator<JsonNode> parseProducts(JsonNode rootNode) {
+        assert rootNode != null : NULL_ERROR_MSG;
         JsonNode productsNode = rootNode.findPath("items");
         if (productsNode.isMissingNode()) {
             throw new ParserException("Products are missing");
@@ -78,6 +85,7 @@ public class JsonParser implements Parser {
     }
 
     private ProductDto parseProduct(JsonNode productNode) {
+        assert productNode != null : NULL_ERROR_MSG;
         JsonNode nameNode = productNode.path("name");
         if (nameNode.isMissingNode()) {
             throw new ParserException("The product name is missing");
@@ -90,6 +98,7 @@ public class JsonParser implements Parser {
     }
 
     private double parseQuantity(JsonNode productNode) {
+        assert productNode != null : NULL_ERROR_MSG;
         JsonNode quantityNode = productNode.path("quantity");
         if (quantityNode.isMissingNode()) {
             throw new ParserException("The product quantity is missing");

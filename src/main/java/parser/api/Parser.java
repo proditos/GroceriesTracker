@@ -16,8 +16,8 @@ public interface Parser {
     /**
      * The method that parses the file and initializes and returns the DTO based on the received data.
      *
-     * @param path the file path.
-     * @return null if the file could not be parsed.
+     * @param path the file path, not null.
+     * @return null if the path is null or the file could not be parsed.
      * In all other cases, returns the parsed and initialized DTO.
      */
     ReceiptDto parse(Path path);

@@ -15,7 +15,7 @@ public interface ReceiptProductDao {
     /**
      * Saves the entry linking the product to the receipt to the database.
      *
-     * @param receiptProduct the entry linking the product to the receipt to save.
+     * @param receiptProduct the entry linking the product to the receipt to save, not null.
      * @throws TechnicalException if the receiptProduct is null or any errors occurred while saving the entry.
      */
     void save(ReceiptProduct receiptProduct);

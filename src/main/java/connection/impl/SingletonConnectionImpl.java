@@ -15,7 +15,8 @@ public class SingletonConnectionImpl implements SingletonConnection {
     private final DataSource dataSource;
     private Connection connection;
 
-    public SingletonConnectionImpl(DataSource dataSource) {
+    SingletonConnectionImpl(DataSource dataSource) {
+        assert dataSource != null : "Data source is null";
         this.dataSource = dataSource;
     }
 
