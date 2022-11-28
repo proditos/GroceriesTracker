@@ -5,6 +5,7 @@ import java.sql.Connection;
 /**
  * The interface that is used to wrap over the database {@code Connection}.
  * The class implementing it must be a Singleton.
+ * Has a standard implementation {@code SingletonConnectionImpl}.
  *
  * @see Connection
  *

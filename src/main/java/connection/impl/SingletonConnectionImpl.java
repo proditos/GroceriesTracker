@@ -8,9 +8,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
+ * Standard implementation required for unit tests.
+ * To define your connection, inherit this class and
+ * explicitly specify the data source in the constructor.
+ *
  * @author Vladislav Konovalov
  */
-public class SingletonConnectionImpl implements SingletonConnection {
+class SingletonConnectionImpl implements SingletonConnection {
     private static final Logger LOGGER = LogManager.getLogger(SingletonConnectionImpl.class);
     private final DataSource dataSource;
     private Connection connection;
@@ -61,6 +65,7 @@ public class SingletonConnectionImpl implements SingletonConnection {
             try {
                 connection = dataSource.getConnection();
                 connection.setAutoCommit(false);
+                connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
             } catch (SQLException e) {
                 LOGGER.error("An error occurred while trying to connect to the database", e);
             }
