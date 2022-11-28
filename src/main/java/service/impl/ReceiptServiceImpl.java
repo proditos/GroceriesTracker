@@ -42,7 +42,6 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    // TODO: Refactor this horrible method
     public void add(ReceiptDto receiptDto) {
         try {
             if (receiptDto == null) {
@@ -53,41 +52,54 @@ public class ReceiptServiceImpl implements ReceiptService {
             if (receiptDao.findLast(receipt).isPresent()) {
                 return;
             }
-            receiptDao.save(receipt);
-            Optional<Receipt> foundReceipt = receiptDao.findLast(receipt);
-            long receiptId;
-            if (foundReceipt.isPresent()) {
-                receiptId = foundReceipt.get().getId();
-            } else {
-                throw new TechnicalException("The receipt is saved but not found");
-            }
+            long receiptId = saveAndGetId(receipt);
 
-            for (Map.Entry<ProductDto, Double> productQuantity : receiptDto.getProductQuantityMap().entrySet()) {
-                ProductDto productDto = productQuantity.getKey();
-                double quantity = productQuantity.getValue();
-                Optional<Product> foundProduct = productDao.findLast(productMapper.toEntity(productDto));
-                if (foundProduct.isPresent()) {
-                    long productId = foundProduct.get().getId();
-                    ReceiptProduct receiptProduct = new ReceiptProduct(receiptId, productId, quantity);
-                    receiptProductDao.save(receiptProduct);
-                } else {
-                    Product product = productMapper.toEntity(productDto);
-                    productDao.save(product);
-                    foundProduct = productDao.findLast(product);
-                    if (foundProduct.isPresent()) {
-                        long productId = foundProduct.get().getId();
-                        ReceiptProduct receiptProduct = new ReceiptProduct(receiptId, productId, quantity);
-                        receiptProductDao.save(receiptProduct);
-                    } else {
-                        throw new TechnicalException("The product is saved but not found");
-                    }
-                }
-            }
+            saveProductsToReceipt(receiptDto.getProductQuantityMap(), receiptId);
 
             singletonConnection.commit();
         } catch (TechnicalException e) {
             singletonConnection.rollback();
             LOGGER.error("An error occurred while adding new receipt to the database", e);
         }
+    }
+
+    private long saveAndGetId(Receipt receipt) {
+        receiptDao.save(receipt);
+        Optional<Receipt> foundReceipt = receiptDao.findLast(receipt);
+        long id;
+        if (foundReceipt.isPresent()) {
+            id = foundReceipt.get().getId();
+        } else {
+            throw new TechnicalException("The receipt is saved but not found");
+        }
+        return id;
+    }
+
+    private void saveProductsToReceipt(Map<ProductDto, Double> productQuantityMap, long receiptId) {
+        for (Map.Entry<ProductDto, Double> productQuantity : productQuantityMap.entrySet()) {
+            Product product = productMapper.toEntity(productQuantity.getKey());
+            double quantity = productQuantity.getValue();
+            Optional<Product> foundProduct = productDao.findLast(product);
+            long productId;
+            if (foundProduct.isPresent()) {
+                productId = foundProduct.get().getId();
+            } else {
+                productId = saveProductAndGetId(product);
+            }
+            ReceiptProduct receiptProduct = new ReceiptProduct(receiptId, productId, quantity);
+            receiptProductDao.save(receiptProduct);
+        }
+    }
+
+    private long saveProductAndGetId(Product product) {
+        productDao.save(product);
+        Optional<Product> foundProduct = productDao.findLast(product);
+        long id;
+        if (foundProduct.isPresent()) {
+            id = foundProduct.get().getId();
+        } else {
+            throw new TechnicalException("The product is saved but not found");
+        }
+        return id;
     }
 }
