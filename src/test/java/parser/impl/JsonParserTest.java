@@ -44,4 +44,12 @@ class JsonParserTest {
         String message = "The DTO should be null";
         assertNull(receiptDto, message);
     }
+
+    @Test
+    void testParse_PathIsNull() {
+        ReceiptDto receiptDto = jsonParser.parse(null);
+
+        String message = "The DTO should be null";
+        assertNull(receiptDto, message);
+    }
 }
