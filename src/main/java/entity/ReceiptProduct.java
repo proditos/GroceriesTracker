@@ -15,11 +15,11 @@ public final class ReceiptProduct extends AbstractEntity {
         this.quantity = quantity;
     }
 
-    public Long getReceiptId() {
+    public long getReceiptId() {
         return receiptId;
     }
 
-    public Long getProductId() {
+    public long getProductId() {
         return productId;
     }
 
