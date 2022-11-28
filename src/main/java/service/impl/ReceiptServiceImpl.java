@@ -4,9 +4,6 @@ import connection.api.SingletonConnection;
 import dao.api.ProductDao;
 import dao.api.ReceiptDao;
 import dao.api.ReceiptProductDao;
-import dao.impl.ProductDaoImpl;
-import dao.impl.ReceiptDaoImpl;
-import dao.impl.ReceiptProductDaoImpl;
 import dto.ProductDto;
 import dto.ReceiptDto;
 import entity.Product;
@@ -34,11 +31,14 @@ public class ReceiptServiceImpl implements ReceiptService {
     private final ReceiptProductDao receiptProductDao;
     private final ProductDao productDao;
 
-    public ReceiptServiceImpl(SingletonConnection singletonConnection) {
+    public ReceiptServiceImpl(SingletonConnection singletonConnection,
+                              ReceiptDao receiptDao,
+                              ReceiptProductDao receiptProductDao,
+                              ProductDao productDao) {
         this.singletonConnection = singletonConnection;
-        receiptDao = new ReceiptDaoImpl(singletonConnection.getInstance());
-        receiptProductDao = new ReceiptProductDaoImpl(singletonConnection.getInstance());
-        productDao = new ProductDaoImpl(singletonConnection.getInstance());
+        this.receiptDao = receiptDao;
+        this.receiptProductDao = receiptProductDao;
+        this.productDao = productDao;
     }
 
     @Override
