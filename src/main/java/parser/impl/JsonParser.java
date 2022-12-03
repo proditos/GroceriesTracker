@@ -55,7 +55,7 @@ public class JsonParser implements Parser {
 
     private String parseSellerName(JsonNode rootNode) {
         assert rootNode != null : NULL_ERROR_MSG;
-        JsonNode sellerNameNode = rootNode.findPath("seller").path("name");
+        JsonNode sellerNameNode = rootNode.findPath("receipt").path("user");
         if (sellerNameNode.isMissingNode()) {
             throw new ParserException("The seller's name is missing");
         } else {
@@ -65,7 +65,7 @@ public class JsonParser implements Parser {
 
     private LocalDateTime parseDateTime(JsonNode rootNode) {
         assert rootNode != null : NULL_ERROR_MSG;
-        JsonNode dateTimeNode = rootNode.findPath("query").path("date");
+        JsonNode dateTimeNode = rootNode.findPath("receipt").path("dateTime");
         if (dateTimeNode.isMissingNode()) {
             throw new ParserException("The receipt datetime is missing");
         } else {
