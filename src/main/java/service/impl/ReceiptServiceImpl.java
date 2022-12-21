@@ -50,6 +50,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
             Receipt receipt = receiptMapper.toEntity(receiptDto);
             if (receiptDao.findLast(receipt).isPresent()) {
+                System.out.println("The receipt is already in the database and has not been saved");
                 return;
             }
             long receiptId = saveAndGetId(receipt);
@@ -57,6 +58,8 @@ public class ReceiptServiceImpl implements ReceiptService {
             saveProductsToReceipt(receiptDto.getProductQuantityMap(), receiptId);
 
             singletonConnection.commit();
+
+            System.out.println("The receipt was saved");
         } catch (TechnicalException e) {
             singletonConnection.rollback();
             LOGGER.error("An error occurred while adding new receipt to the database", e);

@@ -13,6 +13,7 @@ import parser.api.Parser;
 import dto.ReceiptDto;
 import service.api.ReceiptService;
 import service.impl.ReceiptServiceImpl;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -24,7 +25,7 @@ public class Main {
     private static final String DOWNLOAD_FOLDER = System.getProperty("user.home") + "/Downloads/";
     private static final String FILENAME = "file.json";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Path pathToInputFile = Paths.get(DOWNLOAD_FOLDER + FILENAME);
         Parser parser = new JsonParser();
         ReceiptDto receiptDto = parser.parse(pathToInputFile);
@@ -43,5 +44,8 @@ public class Main {
             receiptService.add(receiptDto);
             singletonConnection.close();
         }
+
+        System.out.println("\nPress Enter to continue...");
+        System.in.read();
     }
 }
