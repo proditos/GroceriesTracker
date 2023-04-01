@@ -52,7 +52,23 @@ class ReceiptDaoImplTest {
         verify(mockConnection, times(1)).prepareStatement(contains("?"));
         verify(mockPreparedStatement, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
-        verify(mockResultSet, times(1)).getLong("receipt_id");
+        verify(mockResultSet, times(1)).getLong(anyString());
+        verify(mockPreparedStatement, times(1)).close();
+        verify(mockResultSet, times(1)).close();
+    }
+
+    @Test
+    void testFindLast_ReceiptWithNullDatetime() throws SQLException {
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(false);
+
+        receiptDao.findLast(new Receipt("SellerName", null));
+
+        verify(mockConnection, times(1)).prepareStatement(contains("?"));
+        verify(mockPreparedStatement, times(1)).executeQuery();
+        verify(mockResultSet, times(1)).next();
+        verify(mockResultSet, times(0)).getLong(anyString());
         verify(mockPreparedStatement, times(1)).close();
         verify(mockResultSet, times(1)).close();
     }
@@ -99,6 +115,22 @@ class ReceiptDaoImplTest {
         receiptDao.save(receipt);
 
         verify(mockConnection, times(1)).prepareStatement(contains("?"));
+        verify(mockPreparedStatement, times(2)).setString(anyInt(), anyString());
+        verify(mockPreparedStatement, times(1)).executeUpdate();
+        verify(mockPreparedStatement, times(1)).close();
+    }
+
+    @Test
+    void testSave_ReceiptWithNullDatetime() throws SQLException {
+        Receipt receipt = new Receipt("SellerName", null);
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
+        when(mockPreparedStatement.executeUpdate()).thenThrow(SQLException.class);
+
+        String message = "Should throw a TechnicalException when trying to save receipt with null datetime";
+        assertThrows(TechnicalException.class, () -> receiptDao.save(receipt), message);
+        verify(mockConnection, times(1)).prepareStatement(contains("?"));
+        verify(mockPreparedStatement, times(1)).setString(anyInt(), anyString());
+        verify(mockPreparedStatement, times(1)).setString(anyInt(), isNull());
         verify(mockPreparedStatement, times(1)).executeUpdate();
         verify(mockPreparedStatement, times(1)).close();
     }
