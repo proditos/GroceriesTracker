@@ -14,9 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Vladislav Konovalov
  */
 class JsonParserTest {
+    private static final String NULL_DTO_MESSAGE = "The DTO should be null";
     private static final String ROOT_FOLDER = "./src/test/resources/parser/impl/";
-    private static final String CORRECT_FILE_NAME = "correct_test_file.json";
-    private static final String INCORRECT_FILE_NAME = "incorrect_test_file.json";
+    private static final String CORRECT_FILE_NAME = "correct_file.json";
+    private static final String INCORRECT_FILE_NAME = "incorrect_file.json";
+    private static final String MISSING_DATETIME_FILE_NAME = "missing_datetime.json";
+    private static final String MISSING_PRODUCT_NAME_FILE_NAME = "missing_product_name.json";
+    private static final String MISSING_PRODUCT_PRICE_FILE_NAME = "missing_product_price.json";
+    private static final String MISSING_PRODUCT_QUANTITY_FILE_NAME = "missing_product_quantity.json";
+    private static final String MISSING_PRODUCTS_FILE_NAME = "missing_products.json";
     final Parser jsonParser = new JsonParser();
 
     @Test
@@ -43,15 +49,48 @@ class JsonParserTest {
     void testParse_IncorrectFile() {
         ReceiptDto receiptDto = jsonParser.parse(Paths.get(ROOT_FOLDER + INCORRECT_FILE_NAME));
 
-        String message = "The DTO should be null";
-        assertNull(receiptDto, message);
+        assertNull(receiptDto, NULL_DTO_MESSAGE);
+    }
+
+    @Test
+    void testParse_MissingDatetimeFile() {
+        ReceiptDto receiptDto = jsonParser.parse(Paths.get(ROOT_FOLDER + MISSING_DATETIME_FILE_NAME));
+
+        assertNull(receiptDto, NULL_DTO_MESSAGE);
+    }
+
+    @Test
+    void testParse_MissingProductNameFile() {
+        ReceiptDto receiptDto = jsonParser.parse(Paths.get(ROOT_FOLDER + MISSING_PRODUCT_NAME_FILE_NAME));
+
+        assertNull(receiptDto, NULL_DTO_MESSAGE);
+    }
+
+    @Test
+    void testParse_MissingProductPriceFile() {
+        ReceiptDto receiptDto = jsonParser.parse(Paths.get(ROOT_FOLDER + MISSING_PRODUCT_PRICE_FILE_NAME));
+
+        assertNull(receiptDto, NULL_DTO_MESSAGE);
+    }
+
+    @Test
+    void testParse_MissingProductQuantityFile() {
+        ReceiptDto receiptDto = jsonParser.parse(Paths.get(ROOT_FOLDER + MISSING_PRODUCT_QUANTITY_FILE_NAME));
+
+        assertNull(receiptDto, NULL_DTO_MESSAGE);
+    }
+
+    @Test
+    void testParse_MissingProductsFile() {
+        ReceiptDto receiptDto = jsonParser.parse(Paths.get(ROOT_FOLDER + MISSING_PRODUCTS_FILE_NAME));
+
+        assertNull(receiptDto, NULL_DTO_MESSAGE);
     }
 
     @Test
     void testParse_PathIsNull() {
         ReceiptDto receiptDto = jsonParser.parse(null);
 
-        String message = "The DTO should be null";
-        assertNull(receiptDto, message);
+        assertNull(receiptDto, NULL_DTO_MESSAGE);
     }
 }

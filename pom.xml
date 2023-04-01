@@ -144,10 +144,10 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>common/Main.class</exclude>
-                        <exclude>connection/impl/MariaDbSingletonConnection.class</exclude>
-                        <exclude>exception/*</exclude>
-                        <exclude>entity/*</exclude>
+                        <exclude>com/github/proditos/Main.class</exclude>
+                        <exclude>com/github/proditos/connection/impl/MariaDbSingletonConnection.class</exclude>
+                        <exclude>com/github/proditos/exception/*</exclude>
+                        <exclude>com/github/proditos/entity/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -179,7 +179,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.8</minimum>
+                                            <minimum>0.9</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

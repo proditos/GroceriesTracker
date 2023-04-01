@@ -21,7 +21,6 @@ class SingletonConnectionImpl implements SingletonConnection {
     private Connection connection;
 
     SingletonConnectionImpl(DataSource dataSource) {
-        assert dataSource != null : "Data source is null";
         this.dataSource = dataSource;
     }
 
