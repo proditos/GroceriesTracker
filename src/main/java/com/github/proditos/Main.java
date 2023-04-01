@@ -21,9 +21,12 @@ import java.sql.Connection;
 /**
  * @author Vladislav Konovalov
  */
-public class Main {
+public final class Main {
     private static final String DOWNLOAD_FOLDER = System.getProperty("user.home") + "/Downloads/";
     private static final String FILENAME = "file.json";
+
+    private Main() {
+    }
 
     public static void main(String[] args) {
         Path pathToInputFile = Paths.get(DOWNLOAD_FOLDER + FILENAME);
