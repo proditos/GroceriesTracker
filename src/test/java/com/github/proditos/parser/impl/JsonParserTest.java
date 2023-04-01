@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class JsonParserTest {
     private static final String NULL_DTO_MESSAGE = "The DTO should be null";
-    private static final String ROOT_FOLDER = "./src/test/resources/parser/impl/";
+    private static final String ROOT_FOLDER = "src/test/resources/com/github/proditos/parser/impl/";
     private static final String CORRECT_FILE_NAME = "correct_file.json";
     private static final String INCORRECT_FILE_NAME = "incorrect_file.json";
     private static final String MISSING_DATETIME_FILE_NAME = "missing_datetime.json";
