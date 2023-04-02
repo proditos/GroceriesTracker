@@ -1,8 +1,8 @@
 package com.github.proditos.exception;
 
 /**
- * Wraps checked exceptions such as {@code IOException} and
- * {@code SQLException} for their further processing.
+ * Wraps {@code SQLException} for
+ * their further processing.
  *
  * @author Vladislav Konovalov
  */
